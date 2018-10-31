@@ -48,7 +48,8 @@ function onNewConnection (socket) {
 }
 
 const wss = new WebSocketServer({
-    port: 8080
+    host:'192.168.0.205',
+    port: "8080"
 });
 wss.on('connection', onNewConnection);
 

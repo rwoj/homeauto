@@ -5,6 +5,7 @@ const infoToBroadcast = {
 
 module.exports = function updateToClients (broadcast) {
     setInterval(() => {
-            broadcast('Update', infoToBroadcast);
+        infoToBroadcast.wartosc+=1;
+        broadcast('Update', infoToBroadcast);
     }, 1000);
 }
