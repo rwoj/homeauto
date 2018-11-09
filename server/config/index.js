@@ -3,8 +3,8 @@ dotenv.config()
 
 export default {
   modbus: {
-    host              : process.env.MODBUS_SERVER,
-    port              : process.env.MODBUS_PORT,
+    host: process.env.MODBUS_SERVER,
+    port: {port : process.env.MODBUS_PORT}
   },
   webSocketsServer: {
     host:'192.168.0.205',

@@ -46,6 +46,13 @@ function buildReadPromisses(){
 
 }
 
+export function modbusPooling(modbusClient) {
+    modbusClient.readHoldingRegisters(16387, 10*2, function(err, data) {
+        // console.log(data);
+        console.log(data.buffer);
+    });
+}
+
 
 export function modbusComm (client, modbusSocket) {
         if (!cycleDone) {
@@ -90,8 +97,8 @@ export function modbusComm (client, modbusSocket) {
                 // broadcast('tempNast', 
                 //     );
                 // register.tempNast.rej_last = [...tempParser(res[2].response.body._valuesAsArray)];
-                console.log(res[2].response.body._values.length, 
-                    tempParser(res[2].response.body._values))
+                console.log(res[2].response) 
+                    // tempParser(res[2].response.body._values))
                 // let tempZmiany = whatChangedTemp(tempParser(res[2].response.body._values),
                 //                    register.wyTemp.adres, register.wyTemp.rej_last1, register.wyTemp.rej_last2, register.wyTemp.rej_last3);
                 // broadcast('wyTemp', 

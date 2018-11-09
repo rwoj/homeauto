@@ -4,10 +4,10 @@ import {readIEEE754LEW, writeIEEE754LEW} from '../helpers/helpers';
 export function tempParser(response) {
   // console.log(JSON.stringify(response));
   const result = [];   
-  for (let i = 0; i < response.length; i+=2) {
-    console.log(i, readIEEE754LEW(response, i, 23, 4).toFixed(1))
+  for (let i = 0; i < response.length; i+=4) {
+    console.log(i, readIEEE754LEW(response, i, 23, 4).toFixed(1));
     result.push(readIEEE754LEW(response, i, 23, 4).toFixed(1));
-    console.log(ieee754.read(response, i, true, 23, 4))
+    // console.log(ieee754.read(response, i, false, 23, 4))
   }
   return result;
 }

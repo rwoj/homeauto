@@ -1,4 +1,4 @@
-import {writeToModbus} from './modbusCommunication'
+import {writeToModbus} from './old/oldmodbusCommunication'
 const connections = {};
 
 export function broadcast (key, value) {
