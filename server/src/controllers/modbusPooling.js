@@ -6,8 +6,8 @@ const cycleWrites=[];
 
 // {address: 16517, value: 0, temp: false}
 // {address: 16401, value: 0, temp: true}
-export function writeToModbus(sthToWrite){
-    return cycleWrites.push(sthToWrite);
+export function writeToModbus(someChange){
+    return cycleWrites.push(someChange);
 }
 
 function buildWritePromisses(writeRequests, client){
@@ -18,45 +18,18 @@ function buildWritePromisses(writeRequests, client){
                 x.address, buildTempBuff(x.value)));
         } else {
             writePromises.push(client.writeRegister(
-                x.address, (x.value)%2))
+                x.address, parseInt(x.value, 10)))
         }
     })
     return writePromises;
 }
     
-//   // zapisy
-//   this.zmienWy = (req, res)=>{
-//     const {adres, value} = req.body
-//     console.log(adres, value)
-//     client.writeSingleRegister(adres, value)
-//       .then(response=>res.json({response}))
-//       .catch(err=>console.log(err))
-//   }
-//   this.zmienTemp = (req, res)=>{
-//     const {adres, value} = req.body
-//     console.log(adres, value)
-//     let buf=Buffer.alloc(4)
-//     writeIEEE754LEW(buf, value, 0, 23, 4)
-//     client.writeMultipleRegisters(adres, buf)
-//       .then(response=>{
-//         console.log(response)
-//         res.json({response})
-//       })
-//       .catch(err=>console.log(err)) 
-//   }
-//   this.wyslij = (req, res)=>{
-//     let address=16902
-//     address=address===16902?16901:16902
-//     res.json({nowyAdres: address})
-//   }
-//         writePromices.push(client.writeHoldingRegister...nextWrite...);
-
-
 export function modbusPooling(client) {
-    if (cycleWrites.length>0){
+    if (cycleWrites.length > 0){
         let writePromises = buildWritePromisses(cycleWrites, client);
+        cycleWrites.splice(0,cycleWrites.length);
         Promise.all(writePromises)
-            .then(res=>console.log("heja", res))
+            .then(res=>{console.log("write done: ",res)})
             .catch(console.error)
     }
 

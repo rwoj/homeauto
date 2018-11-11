@@ -7,6 +7,7 @@ export function broadcast (key, value) {
             JSON.stringify({ key, value })
         );
     }
+    // console.log(key, value);
 }
 
 export function onNewConnection (websocket) {
@@ -18,12 +19,12 @@ export function onNewConnection (websocket) {
     websocket.on('message', (data) => {
         try {
             data = JSON.parse(data);
-            console.log(data);
+            console.log(data.key, data.value.address, data.value.value);
             // writeToModbus({address: 16401, value: 20.5, temp: true})
+            writeToModbus(data.value)
         } catch (e) {
             data = {};
         }
-        // broadcast('initRejestr', getCurrentState());
         
         // if (data.key === 'STATUS') {
         //     setTimeout(() => {
@@ -36,8 +37,3 @@ export function onNewConnection (websocket) {
         delete connections[id];
     });
 }
-
-// const infoToBroadcast = {
-//     adres: 12999,
-//     wartosc: 14
-// };

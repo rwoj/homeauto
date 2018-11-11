@@ -2,16 +2,20 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {wyjsciaHashSelector, wyTempHashSelector, wyTempNastHashSelector} from '../reducers/register'
 import {konfigTempSelector} from '../reducers/ustawienia'
-import api from '../api'
+// import api from '../api'
 import OgrzewanieList from './OgrzewanieList'
 
 class Ogrzewanie extends React.Component {
   state={
     poziom: 'all',
   }
-  zapisz = (addr, value)=> 
-    api.rejestr.wyslijZmianeTemp(addr, value)
-        .catch(err => console.log(err))
+  zapisz = (address, value) => {
+    // const {onConnectionWriteHandler} = this.props.match.params;
+    this.props.onConnectionWriteHandler('zmianaTemp', {address, value, temp: true});
+  }
+    // console.log(addr, value);
+    // api.rejestr.wyslijZmianeTemp(addr, value)
+    //     .catch(err => console.log(err))
 
   zmienPoziom= (poz) =>
     this.setState({poziom: poz})

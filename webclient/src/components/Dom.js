@@ -1,13 +1,15 @@
-import React from 'react'
+import React, {Component} from 'react'
 import {connect} from 'react-redux'
 
 import {wyjsciaHashSelector, wySatelHashSelector} from '../reducers/register'
 import {konfigSelector} from '../reducers/ustawienia'
 import CzujkaForm from './CzujkaForm'
 
-class Dom extends React.Component {
+class Dom extends Component {
     render(){
         const {history, wyjscia, wySatel, konfig} = this.props
+        // console.log("konfig", konfig);
+        // console.log("wyjscia", wyjscia);
         const currentCzujki=[]
         const grzanie=[16941, 16950]
         let howManyActive=0 

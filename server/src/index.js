@@ -8,7 +8,7 @@ import homeConfig from '../config';
 const modbusClient = new Modbus();
 modbusClient.connectTCP(homeConfig.modbus.host, homeConfig.modbus.port);
 modbusClient.setID(1);
-setInterval(()=>modbusPooling(modbusClient), 3000);
+setInterval(()=>modbusPooling(modbusClient), 2000);
 console.log("modbus is connected ...");
 
 const wss = new WebSocketServer(homeConfig.webSocketsServer);

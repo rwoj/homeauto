@@ -3,18 +3,16 @@ import {connect} from 'react-redux'
 import {wyjsciaHashSelector} from '../reducers/register'
 import {konfigSelector} from '../reducers/ustawienia'
 import SwiatloList from './SwiatloList'
-import api from '../api'
 
 class Swiatlo extends React.Component {
-    state={
-        poziom: 'parter'
+    state={ poziom: 'parter'}
+    zapisz = (address, value)=> {
+        console.log("zapisz ", address, value)
+        this.props.onConnectionWriteHandler('zmianaSwiatla', 
+          {address, value, temp: false});
     }
-    zapisz = (addr, value)=> 
-        api.rejestr.wyslijZmiane(addr, value)
-
     zmienPoziom= (poz) =>
         this.setState({poziom: poz})
-
     render(){
         const {poziom} = this.state
         const {history, konfig, wyjscia} = this.props
