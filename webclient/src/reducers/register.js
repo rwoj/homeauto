@@ -10,24 +10,15 @@ export default function register(state={}, action={}) {
       return {wyjscia: [...action.dane.wyjscia], wyTemp: [...action.dane.wyTemp], 
               wyTempNast: [...action.dane.wyTempNast], wySatel: initSatel()};
     case ZMIANA_REJESTRU_WYJSCIA:
-      // zmiana=[...state.wyjscia]
-      // zmiana[Object.keys(action.dane)[0]]=action.dane[Object.keys(action.dane)[0]]     
-      // console.log(action.dane);
       return {...state, 
         wyjscia: tableWithChanges([...state.wyjscia], action.dane)}
     case ZMIANA_REJESTRU_WYSATEL:
-      // zmiana=[...state.wySatel]
-      // zmiana[Object.keys(action.dane)[0]]=action.dane[Object.keys(action.dane)[0]]     
       return {...state, 
         wySatel: tableWithChanges([...state.wySatel], action.dane)}
     case ZMIANA_REJESTRU_WYTEMP:
-      // zmiana=[...state.wyTemp]
-      // zmiana[Object.keys(action.dane)[0]]=action.dane[Object.keys(action.dane)[0]]     
       return {...state, 
         wyTemp: tableWithChanges([...state.wyTemp], action.dane)}
     case ZMIANA_REJESTRU_WYTEMPNAST:
-      // zmiana=[...state.wyTempNast]
-      // zmiana[Object.keys(action.dane)[0]]=action.dane[Object.keys(action.dane)[0]]     
       return {...state, 
         wyTempNast: tableWithChanges([...state.wyTempNast], action.dane)}
 
@@ -39,13 +30,12 @@ function tableWithChanges (current, changes){
   return current.map(x => {
     let found = changes.find(y=>x.id===y.id); 
     if (found){
-      console.log(found);
+      // console.log(found);
       return found;
     }
     return x;
   })
 }
-
 function initSatel(){
   const initSatel=[];
   for (let i=0; i<40; i+=1){
