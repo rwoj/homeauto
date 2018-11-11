@@ -4,20 +4,19 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dbstart": "e:/db/redis-server",
     "start": "nodemon --exec babel-node --presets env,stage-2 src/index.js",
-    "jtest": "nodemon --exec babel-node --presets env,stage-2 src/loggerTCP.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dbstart": "e:/db/redis-server",
+    "jtest": "nodemon --exec babel-node --presets env,stage-2 src/controllers/hex.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "dotenv": "^6.1.0",
-    "ieee754": "^1.1.12",
     "modbus-serial": "^7.4.1",
-    "net": "^1.0.2",
-    "ws": "^6.1.0"
+    "ws": "^6.1.0",
+    "ieee754": "^1.1.12"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

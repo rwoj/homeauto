@@ -1,18 +1,29 @@
 import {broadcast} from './clientsCommunication';
-import {whatChanged, whatChangedTemp, tempParser} from './readingsHandler';
+import {whatChanged, whatChangedTemp, tempParser, buildTempBuff} from './readingsHandler';
 import register  from '../Registers/StateRegister';
 
-let cycleDone = true;
 const cycleWrites=[];
 
+// {address: 16517, value: 0, temp: false}
+// {address: 16401, value: 0, temp: true}
 export function writeToModbus(sthToWrite){
     return cycleWrites.push(sthToWrite);
 }
 
-function buildWritePromisses(writeRequests){
-    let writePromices=[];
-    while ((nextWrite = writeRequests.shift()) !== undefined){      
-        
+function buildWritePromisses(writeRequests, client){
+    let writePromises=[];
+    writeRequests.map((x)=>{
+        if (x.temp) {
+            writePromises.push(client.writeRegisters(
+                x.address, buildTempBuff(x.value)));
+        } else {
+            writePromises.push(client.writeRegister(
+                x.address, (x.value)%2))
+        }
+    })
+    return writePromises;
+}
+    
 //   // zapisy
 //   this.zmienWy = (req, res)=>{
 //     const {adres, value} = req.body
@@ -39,101 +50,89 @@ function buildWritePromisses(writeRequests){
 //     res.json({nowyAdres: address})
 //   }
 //         writePromices.push(client.writeHoldingRegister...nextWrite...);
+
+
+export function modbusPooling(client) {
+    if (cycleWrites.length>0){
+        let writePromises = buildWritePromisses(cycleWrites, client);
+        Promise.all(writePromises)
+            .then(res=>console.log("heja", res))
+            .catch(console.error)
     }
-    return writePromices;
-}
-function buildReadPromisses(){
 
-}
+    let promises=[];
+    promises.push(client.readHoldingRegisters(
+        register.wyjscia.adres, register.wyjscia.howMany));
+    promises.push(client.readHoldingRegisters(
+        register.wySatel.adres, register.wySatel.howMany));
+    promises.push(client.readHoldingRegisters(
+        register.wyTemp.adres, register.wyTemp.howMany*2));
+    promises.push(client.readHoldingRegisters(
+        register.tempNast.adres, register.tempNast.howMany*2));
 
-export function modbusPooling(modbusClient) {
-    modbusClient.readHoldingRegisters(16387, 10*2, function(err, data) {
-        // console.log(data);
-        console.log(data.buffer);
-    });
-}
-
-
-export function modbusComm (client, modbusSocket) {
-        if (!cycleDone) {
-            return
-        }
-        cycleDone = false
-        // let writePromices=buildWritePromisses(cycleWrites);
-        // if (writePromises.length > 0 ) {
-        //     Promise.all(writePromices)
-        // }
-        let promises=[];
-        promises.push(client.readHoldingRegisters(
-            register.wyjscia.adres, register.wyjscia.howMany));
-        promises.push(client.readHoldingRegisters(
-            register.wySatel.adres, register.wySatel.howMany));
-        promises.push(client.readHoldingRegisters(
-            register.wyTemp.adres, register.wyTemp.howMany*2));
-        promises.push(client.readHoldingRegisters(
-            register.tempNast.adres, register.tempNast.howMany*2));
-
-        Promise.all(promises)
-            .then(res => {
-                // console.log(res[0].response.body._valuesAsArray)
-                // console.log(register.wyjscia.adres)
-                // console.log(whatChanged(res[0].response.body._valuesAsArray, 
-                //              register.wyjscia.adres, register.wyjscia.rej_last))
-                // let wyjsciaZmiany = whatChanged(res[0].response.body._valuesAsArray, 
-                //     register.wyjscia.adres, register.wyjscia.rej_last);
-                // if (wyjsciaZmiany.length>0){
-                //     broadcast('wyjscia', wyjsciaZmiany);
-                //     register.wyjscia.rej_last=[...res[0].response.body._valuesAsArray];
-                // }
-                // let wySatelZmiany = whatChanged(res[1].response.body._valuesAsArray,
-                //     register.wySatel.adres, register.wySatel.rej_last);
-                // if (wySatelZmiany.length>0){
-                //     broadcast('wySatel', wySatelZmiany);
-                //     register.wySatel.rej_last=[...res[1].response.body._valuesAsArray]; 
-                // }
-                // console.log(JSON.stringify(res[3].response.body._valuesAsArray))
-                // let tempNastZmiany = whatChangedTemp(tempParser(res[3].response.body._valuesAsArray),
-                //         register.tempNast.adres, register.tempNast.rej_last, null, null)
-                // broadcast('tempNast', 
-                //     );
-                // register.tempNast.rej_last = [...tempParser(res[2].response.body._valuesAsArray)];
-                console.log(res[2].response) 
-                    // tempParser(res[2].response.body._values))
-                // let tempZmiany = whatChangedTemp(tempParser(res[2].response.body._values),
-                //                    register.wyTemp.adres, register.wyTemp.rej_last1, register.wyTemp.rej_last2, register.wyTemp.rej_last3);
-                // broadcast('wyTemp', 
-                    // );
-                //     register.wyTemp.rej_last1 = [...tempParser(res[3].response.body._valuesAsArray)];
-                //     register.wyTemp.rej_last2 = [...register.wyTemp.rej_last1];
-                //     register.wyTemp.rej_last3 = [...register.wyTemp.rej_last2];        
-
-                // console.log(JSON.stringify(res[2].response.body._valuesAsArray));
-                // // console.log(res[1].response.body._values)
-                // broadcast("dane",res[0].response.body._valuesAsArray )
-                cycleDone = true
-            })
-            .catch(modbusSocket.close)
+    Promise.all(promises)
+        .then(handleModbusResult)
+        .catch(console.error)
 }
 
-// readModbusRegistry(register.wyjscia.adres, register.wyjscia.howMany)
-//         .then(result =>{
-//             broadcast('wyjscia', whatChanged(result, register.wyjscia.adres, register.wyjscia.rej_last));
-//             register.wyjscia.rej_last=[...result];
-//         })
-//     readModbusRegistry(register.wySatel.adres, register.wySatel.howMany)
-//         .then(result =>{
-//             broadcast('wySatel', whatChanged(result, register.wySatel.adres, register.wySatel.rej_last));
-//             register.wySatel.rej_last=[...result];
-//         })    
-//     readModbusRegistryTemp(register.tempNast.adres, register.tempNast.howMany)
-//         .then(result =>{
-//             broadcast('tempNast', whatChangedTemp(result, register.tempNast.adres, register.tempNast.rej_last, null, null));
-//             register.tempNast.rej_last = [...result];
-//         })    
-//     readModbusRegistryTemp(register.wyTemp.adres, register.wyTemp.howMany)
-//         .then(result =>{
-//             broadcast('wyTemp', whatChangedTemp(result, register.wyTemp.adres, register.wyTemp.rej_last1, register.wyTemp.rej_last2, register.wyTemp.rej_last2));
-//             register.wyTemp.rej_last1 = [...result];
-//             register.wyTemp.rej_last2 = [...register.wyTemp.rej_last1];
-//             register.wyTemp.rej_last3 = [...register.wyTemp.rej_last2];
-//         }) 
+function handleModbusResult (res){
+    
+    let wyjsciaZmiany = whatChanged(res[0].data, 
+        register.wyjscia.adres, register.wyjscia.rej_last);
+    if (wyjsciaZmiany.length>0){
+        broadcast('wyjscia', wyjsciaZmiany);
+        register.wyjscia.rej_last=[...res[0].data];
+    }
+    let wySatelZmiany = whatChanged(res[1].data,
+        register.wySatel.adres, register.wySatel.rej_last);
+    if (wySatelZmiany.length>0){
+        broadcast('wySatel', wySatelZmiany);
+        register.wySatel.rej_last=[...res[1].data]; 
+    }
+    let tempZmiany = whatChangedTemp(tempParser(res[2].buffer),
+        register.wyTemp.adres, register.wyTemp.rej_last1, 
+        register.wyTemp.rej_last2, register.wyTemp.rej_last3);
+    if (tempZmiany.length>0){
+        broadcast('wyTemp', tempZmiany );
+    }
+    register.wyTemp.rej_last1 = [...tempParser(res[2].buffer)];
+    register.wyTemp.rej_last2 = [...register.wyTemp.rej_last1];
+    register.wyTemp.rej_last3 = [...register.wyTemp.rej_last2];       
+    
+    let tempNastZmiany = whatChangedTemp(tempParser(res[3].buffer),
+        register.tempNast.adres, register.tempNast.rej_last);
+    if(tempNastZmiany.length>0){
+        broadcast('wyTempNast', tempNastZmiany); 
+    }
+    register.tempNast.rej_last = [...tempParser(res[3].buffer)]; 
+}
+
+export function getCurrentState () {
+    const currentState={
+      [register.wyjscia.name]: [],
+    //   [register.wySatel.name]: [],
+      [register.wyTemp.name]: [],
+      [register.tempNast.name]: []
+    };
+    for (let i=0; i<register.wyjscia.howMany; i+=1){
+      currentState[register.wyjscia.name].push(
+          {id: register.wyjscia.adres+i, value: register.wyjscia.rej_last[i]})
+    };
+    // for (let i=0; i<register.wySatel.howMany; i+=1){
+    //   currentState[register.wySatel.name].push(
+    //       {id: register.wySatel.adres+i, value: register.wyjscia.rej_last[i]})
+    // };
+    let j=0;
+    for (let i=0; i<register.wyTemp.howMany; i+=1){
+      currentState[register.wyTemp.name].push(
+          {id: register.wyTemp.adres+j, value: register.wyTemp.rej_last1[i]});
+      j+=2;
+    };
+    j=0;
+    for (let i=0; i<register.tempNast.howMany; i+=1){
+      currentState[register.tempNast.name].push(
+          {id: register.tempNast.adres+j, value: register.tempNast.rej_last[i]});
+      j+=2;
+    };
+    return currentState;
+  }

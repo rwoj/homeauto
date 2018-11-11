@@ -1,32 +1,161 @@
-.App {
+.strona-glowna {
+  background-color: gray;
+}
+.block{
+  background-color: antiquewhite;
+  margin: 5px;
+  border: 2px solid brown;
+  display: grid;
+  grid-template-columns: auto auto;
+}
+
+.block h4 {
+  grid-column-start: 1;
+  grid-column-end: 3;
   text-align: center;
+  /* background-color: aqua; */
+}
+.parter{
+  grid-column-start: 1;
+  grid-column-end: 1;
+  background-color: chocolate;
+  margin: 5px;
+  height: 5em;
+  border: 2px solid brown;
+}
+.pietro{
+  grid-column-start: 2;
+  grid-column-end: 2;
+  background-color: chocolate;
+  margin: 5px;
+  height: 5em;
+  border: 2px solid brown;
+}
+.caly-dom{
+  grid-column-start: 1;
+  grid-column-end: 3;
+  background-color: chocolate;
+  margin: 5px;
+  height: 3em;
+  border: 2px solid brown;
+}
+.ogrzewanieNaglowek{
+  background-color: antiquewhite;
+  color: black;
+  font-size: 1,5em;
+  font-weight: bold;
+  margin: 2px;
+  display: grid;
+  grid-template-columns:  200px 40px 60px 60px 40px 60px;
+}
+.ogrzewanie{
+  background-color: antiquewhite;
+  margin: 2px;
+  display: grid;
+  grid-template-columns: 200px 40px 60px 60px 40px 150px;
+}
+.ogrzewanie .nazwa {
+  grid-column-start: 1;
+  grid-column-end: 2;
+}
+.grzanie-zero {
+  grid-column-start: 2;
+  grid-column-end: 3;
+  color: blue;
+}
+.grzanie-one {
+  grid-column-start: 2;
+  grid-column-end: 3;
+  color: red;
+}
+.temperatura {
+  grid-column-start: 3;
+  grid-column-end: 4;
+}
+.temperatura-init-nastawa{
+  grid-column-start: 4;
+  grid-column-end: 5;
+}
+.temperatura-nastawy {
+  grid-column-start: 5;
+  grid-column-end: 6;
+}
+.buttony-nastawy{
+  grid-column-start: 6;
+  grid-column-end: 7;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
+.swiatloNaglowek{
+  background-color: antiquewhite;
+  color: black;
+  font-size: 1,5em;
+  font-weight: bold;
+  margin: 2px;
+  display: grid;
+  grid-template-columns:  200px 200px 40px 60px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.swiatlo{
+  background-color: antiquewhite;
+  margin: 2px;
+  display: grid;
+  grid-template-columns: 200px 200px 40px 60px;
+}
+.swiatlo .lokal {
+  grid-column-start: 1;
+  grid-column-end: 2;
+}
+.swiatlo .nazwa {
+  grid-column-start: 2;
+  grid-column-end: 3;
+}
+.swiatlo-zero {
+  grid-column-start: 3;
+  grid-column-end: 4;
+  color: blue;
+}
+.swiatlo-one {
+  grid-column-start: 3;
+  grid-column-end: 4;
+  color: red;
+}
+.buttony-swiatlo{
+  grid-column-start: 4;
+  grid-column-end: 5;
 }
 
-.App-link {
-  color: #61dafb;
+
+.czujkiNaglowek{
+  background-color: antiquewhite;
+  color: black;
+  font-size: 1,5em;
+  font-weight: bold;
+  margin: 2px;
+  display: grid;
+  grid-template-columns:  200px 200px 60px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.czujki{
+  background-color: antiquewhite;
+  margin: 2px;
+  display: grid;
+  grid-template-columns: 200px 200px 60px;
+}
+.czujki .lokal {
+  grid-column-start: 1;
+  grid-column-end: 2;
+}
+.czujki .nazwa {
+  grid-column-start: 2;
+  grid-column-end: 3;
+}
+.czujki-zero {
+  grid-column-start: 3;
+  grid-column-end: 4;
+  color: blue;
+}
+.czujki-one {
+  grid-column-start: 3;
+  grid-column-end: 4;
+  color: red;
 }

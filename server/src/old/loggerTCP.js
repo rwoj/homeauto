@@ -1,4 +1,4 @@
-const tempParser = require('./controllers/readingsHandler').tempParser;
+const tempParser = require('../readingsHandler').tempParser;
 // create an empty modbus client
 var ModbusRTU = require("modbus-serial");
 var client = new ModbusRTU();

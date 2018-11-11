@@ -7,14 +7,14 @@ export default {
     rej_last: new Array(100).fill(0)
   },
   wySatel: {
-    name: 'wy_satel',
+    name: 'wySatel',
     adres: 17100,
     howMany: 40,
     rej_first:[],
     rej_last: new Array(40).fill(0)
   },
   wyTemp: {
-    name: 'wy_temp',
+    name: 'wyTemp',
     adres: 17197,
     howMany: 16,
     rej_first:[],

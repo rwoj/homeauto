@@ -1,4 +1,4 @@
-import {writeToModbus} from './old/oldmodbusCommunication'
+import {getCurrentState, writeToModbus} from './modbusPooling'
 const connections = {};
 
 export function broadcast (key, value) {
@@ -12,16 +12,18 @@ export function broadcast (key, value) {
 export function onNewConnection (websocket) {
     const id = Math.random();
     connections[id] = websocket;
+    // console.log(getCurrentState());
+    broadcast('initRejestr', getCurrentState());
 
     websocket.on('message', (data) => {
         try {
             data = JSON.parse(data);
             console.log(data);
-            // writeToModbus(...data)
+            // writeToModbus({address: 16401, value: 20.5, temp: true})
         } catch (e) {
             data = {};
         }
-        // broadcast('dane', infoToBroadcast);
+        // broadcast('initRejestr', getCurrentState());
         
         // if (data.key === 'STATUS') {
         //     setTimeout(() => {

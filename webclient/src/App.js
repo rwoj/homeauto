@@ -1,4 +1,14 @@
 import React, { Component } from 'react';
+import {Route} from 'react-router-dom';
+import {connect} from 'react-redux';
+import {initRejestr, zmienRejestr} from "./actions/rejestr";
+// import api from "./api";
+// import {pobraneUstawienia} from './actions/ustawienia'
+  
+import TestDom from "./components/TestDom"
+// import Dom from "./components/Dom"
+// import Swiatlo from './components/Swiatlo'
+// import Ogrzewanie from "./components/Ogrzewanie"
 import './App.css';
 
 const States = {
@@ -9,69 +19,77 @@ const States = {
 
 class App extends Component {
   state = {
-    items: {},
+    // items: {},
     status: States.DISCONNECTED,
     interval: null,
   };
-
   componentDidMount () {
     this.connect();
   }
-
-  connect () {
-    this.ws = new WebSocket('ws://192.168.0.205:8080');
-
-    this.ws.onopen = () => this.onConnectionOpen();
-    this.ws.onmessage = (event) => this.onConnectionMessage(event);
-    this.ws.onclose = () => this.onConnectionClose();
-    this.ws.sendJSON = (obj) => this.ws.send(JSON.stringify(obj));
-
-    this.setState({status: States.CONNECTING});
-  }
-
-  onConnectionOpen () {
-    // this.ws.sendJSON({
-    //     'auth': config.authToken,
-    // });
-    console.log("on connection open");
-    // this.ws.sendJSON({
-    //     'key': 'STATUS',
-    // });
-    this.setState({status: States.CONNECTED});
-  }
-
-  onConnectionMessage (event) {
-    const data = JSON.parse(event.data);
-    console.log("dane : ",data);
-    this.setState({ items: data });
-  }
-
-  onConnectionClose () {
-    this.setState({ status: States.DISCONNECTED });
-
-    // reconnect mechanics
-    const interval = setInterval(() => {
-        if (this.state.status === States.CONNECTING || this.state.status === States.CONNECTED) {
-            clearInterval(this.state.interval);
-            return;
-        }
-        this.connect();
-    }, 1000)
-
-    this.setState({interval});
-  }
-
   componentWillUnmount () {
     this.ws.close();
   }
-
+  connect () {
+    this.ws = new WebSocket('ws://192.168.0.205:8080');
+    this.ws.onopen = () => this.onConnectionOpen();
+    this.ws.onclose = () => this.onConnectionClose();
+    this.ws.onmessage = (event) => this.onConnectionMessage(event);
+    this.ws.sendJSON = (obj) => this.ws.send(JSON.stringify(obj));
+    this.setState({status: States.CONNECTING});
+  }
+  onConnectionOpen () {
+    console.log("connection is open");
+    this.setState({status: States.CONNECTED});
+  }
+    // this.ws.sendJSON({'auth': config.authToken,});
+    // this.ws.sendJSON({'key': 'STATUS',});  
+  onConnectionClose () {
+    console.log("connection is closed, reconnecting every 5*60 sec");
+    this.setState({ status: States.DISCONNECTED });
+    // reconnect mechanics
+    const interval = setInterval(() => {
+      if (this.state.status === States.CONNECTING || this.state.status === States.CONNECTED) {
+        clearInterval(this.state.interval);
+        return;
+      }
+      this.connect();
+    }, 5*60*1000)
+    this.setState({interval});
+  }  
+  onConnectionMessage (event) {
+    const data = JSON.parse(event.data);
+    if (data.key === 'initRejestr'){
+      console.log("message : ", data.key, data.value);
+      this.props.initRejestr(data.value)
+      // this.props.initRejestr({wyjscia: [{id: 45, value: 0}, {id: 34, value: 12}], 
+      //   wyTemp: [{id: 45, value: 23}], wyTempNast: [{id: 45, value: 23}]});
+    } else {
+      this.props.zmienRejestr(data)
+    }
+  }
+// socket.on('wyjscia', (dane)=>store.dispatch(zmianaRejestruWyjscia(dane)))
+// socket.on('wySatel', (dane)=>store.dispatch(zmianaRejestruWySatel(dane)))
+// socket.on('wyTemp', (dane)=>store.dispatch(zmianaRejestruWyTemp(dane)))
+// socket.on('wyTempNast', (dane)=>store.dispatch(zmianaRejestruWyTempNast(dane)))
+    // this.setState({ items: data });
   render() {
     return (
-      <div className="App">
-            siema
+      <div>
+        <Route  location={this.props.location} path="/" exact component={TestDom} />
       </div>
     );
   }
 }
+export default connect(null, {initRejestr, zmienRejestr})(App)
 
-export default App;
+
+        // <Route  location={this.props.location} path="/ogrzewanie" exact component={Ogrzewanie}  />
+        // <Route  location={this.props.location} path="/swiatlo" exact component={Swiatlo}  /> 
+
+// const App = ({location}) => (
+//     <div>
+//       <Route  location={location} path="/" exact component={Dom} />
+//       <Route  location={location} path="/ogrzewanie" exact component={Ogrzewanie}  />
+//       <Route  location={location} path="/swiatlo" exact component={Swiatlo}  /> 
+//     </div>
+// )

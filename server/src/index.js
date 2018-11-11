@@ -1,15 +1,10 @@
-import {Server as WebSocketServer} from 'ws';
 import Modbus from "modbus-serial";
+import {Server as WebSocketServer} from 'ws';
 
-// import modbus from 'jsmodbus'
-// import net from 'net'
-// import {modbusComm} from './controllers/modbusCommunication'
+import {modbusPooling} from './controllers/modbusPooling';
 import {onNewConnection} from './controllers/clientsCommunication';
 import homeConfig from '../config';
-import {modbusPooling} from './controllers/modbusPooling';
 
-// const modbusSocket = new net.Socket()
-// const client = new modbus.client.TCP(modbusSocket)
 const modbusClient = new Modbus();
 modbusClient.connectTCP(homeConfig.modbus.host, homeConfig.modbus.port);
 modbusClient.setID(1);
