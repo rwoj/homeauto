@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button } from 'react-native-elements'
+// import { Button } from 'react-native-elements'
 import { StyleSheet, Text, View, SectionList, TouchableOpacity } from 'react-native'
 import {connect} from 'react-redux'
 import {wyjsciaHashSelector} from '../reducers/register'
@@ -8,6 +8,12 @@ import SwiatloForm from './SwiatloForm'
 // import api from '../api'
 
 class Swiatlo extends React.Component {
+    static navigationOptions: {
+        title: 'Swiatla',
+        headerStyle: {
+            backgroundColor: '#c9d5df'
+        }
+    };
     state={
         poziom: 'parter'
     }

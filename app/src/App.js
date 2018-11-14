@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 // import {Platform, StyleSheet, Text, View} from 'react-native';
-import { createStore, applyMiddleware } from "redux";
+import { createStore } from "redux";
 import { Provider } from 'react-redux';
-import thunk from "redux-thunk";
-import { composeWithDevTools } from 'remote-redux-devtools';
+// import thunk from "redux-thunk";
+// import devToolsEnhancer  from 'remote-redux-devtools';
 import rootReducer from './reducers';
 import {pobraneUstawienia} from './actions/ustawienia';
 import homeConfig from './homeConfig/konfiguracja';
@@ -12,8 +12,8 @@ import {odczytRejestru, zmianaRejestruWyjscia, zmianaRejestruWySatel,
 import MainNavigator from './components/MainNavigator'
 
 const store = createStore(
-  rootReducer,
-  composeWithDevTools(applyMiddleware(thunk)) 
+  rootReducer
+  // devToolsEnhancer() 
 )
 store.dispatch(pobraneUstawienia(homeConfig));
 
@@ -60,7 +60,8 @@ export default class App extends Component {
   }
   onConnectionMessage (event) {
     const data = JSON.parse(event.data);
-    switch (data.key){
+    // console.log(data.key, data.value);
+    switch (data.key) {
       case 'initRejestr':
         store.dispatch(odczytRejestru(data.value));
         break;

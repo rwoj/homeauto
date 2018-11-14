@@ -7,6 +7,12 @@ import OgrzewanieForm from './OgrzewanieForm'
 // import api from '../api'
 
 class Ogrzewanie extends React.Component {
+  static navigationOptions: {
+    title: 'Ogrzewanie',
+    headerStyle: {
+        backgroundColor: '#c9d5df'
+    }
+};
   state={
     poziom: 'all',
   }

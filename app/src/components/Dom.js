@@ -1,6 +1,5 @@
 import React from 'react'
 import {connect} from 'react-redux'
-// import openSocket from 'socket.io-client'
 // import {Button} from 'react-native-elements'
 import { StyleSheet, Text, View, TouchableOpacity , SectionList } from 'react-native'
 import {wyjsciaHashSelector, wySatelHashSelector} from '../reducers/register'
@@ -10,30 +9,37 @@ import CzujkaForm from './CzujkaForm'
 
 
 class Dom extends React.Component {
+    static navigationOptions: {
+        title: 'Sterowanie domem',
+        headerStyle: {
+            backgroundColor: '#c9d5df'
+        }
+    };
     // componentDidMount(){
     //     const socket = openSocket('http://192.168.0.133:8081')
     //     socket.on('zmiana', zmienRejestr)
     // }
-
     render(){
-        const {konfig, wyjscia, wySatel} = this.props
+        const {wyjscia, wySatel, konfig} = this.props
         const currentCzujki=[]
         const grzanie=[16941, 16950]
         let howManyActive=0 
-        const wyFind=wyjscia && wyjscia.length>0 ? wyjscia.find(x=>x.id===16999): -1   
-        const howManyLights= wyFind>-1 ? wyFind.value : 0
-        const howManyGrzanie=wyjscia.reduce((acc,x)=>
-            acc=(x.id>=grzanie[0]&&x.id<=grzanie[1]&&x.value===1)?acc+=1:acc , 0)  
+        const wyFind= wyjscia && wyjscia.length>0 ? wyjscia.find(x=>x.id===16999):-1   
+        const howManyLights= wyFind ? wyFind.value : 0
+        const howManyGrzanie = wyjscia.reduce( (acc, x) =>
+                (x.id>=grzanie[0]&&x.id<=grzanie[1]&&x.value===1)? acc+1 : acc
+            , 0)  
 
-        konfig.map(x=>{
-            const czujka = x.idWy>0? wySatel.find(y=>y.id===x.idWy):{value: -1}
-            const czujkaValue = czujka? czujka.value: -1
+        konfig.map( x => {
+            const czujka = x.idWy>0 ? wySatel.find(y=>y.id===x.idWy) : {value: -1}
+            const czujkaValue = czujka ? czujka.value : -1
 
-            howManyActive=czujkaValue===1?howManyActive+=1: howManyActive
-
+            howManyActive = czujkaValue===1 ? howManyActive+=1 : howManyActive
+            
             if(x.rodzaj==='czujka' && czujkaValue===1){
-                return currentCzujki.push({...x, key: x.id, czujka : czujkaValue})
+                return currentCzujki.push({...x, key: 'cz'+x.id, czujka : czujkaValue})
             }
+            return howManyActive
         })
 
         return (
@@ -49,7 +55,7 @@ class Dom extends React.Component {
                         </TouchableOpacity>    
                         <TouchableOpacity style={styles.boxPress} 
                             onPress={() => this.props.navigation.navigate('Efekty')}>
-                            <Text style={styles.text}> Efekty/sceny </Text>
+                            <Text style={styles.text}> Sceny </Text>
                         </TouchableOpacity>    
                     </View>
                 </View>
@@ -62,7 +68,7 @@ class Dom extends React.Component {
                         </TouchableOpacity>       
                         <TouchableOpacity style={styles.boxPress} 
                             onPress={() => this.props.navigation.navigate('Harmonogram')}>
-                            <Text style={styles.text}>Harmonogram</Text>
+                            <Text style={styles.text}> Plan </Text>
                         </TouchableOpacity>    
                     </View>    
                 </View>
@@ -114,8 +120,8 @@ const styles = StyleSheet.create({
         borderColor: '#3e2a19',
         borderWidth: 5,
         borderRadius: 20,
-        width: 220,
-        height: 170,
+        width: 170,
+        height: 100,
         margin: 10,
     },
     text: {
