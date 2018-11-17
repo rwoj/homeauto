@@ -2,8 +2,9 @@ import {createStackNavigator } from 'react-navigation'
 import Dom from './screens/Dom/Dom'
 import Swiatlo from './screens/Swiatlo/Swiatlo'
 import Ogrzewanie from './screens/Ogrzewanie/Ogrzewanie'
-import Efekty from './screens/screens/Efekty'
-import Harmonogram from './screens/screens/Harmonogram'
+import Efekty from './screens/Efekty/Efekty'
+import Harmonogram from './screens/Harmonogram/Harmonogram'
+
 
 export default App = createStackNavigator(
     {
