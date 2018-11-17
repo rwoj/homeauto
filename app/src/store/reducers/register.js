@@ -1,28 +1,33 @@
 import { createSelector } from "reselect";
+import { WEBSOCKET_MESSAGE } from '@giantmachines/redux-websocket'
 import {ODCZYT_REJESTRU, ZMIANA_REJESTRU_WYJSCIA, 
   ZMIANA_REJESTRU_WYSATEL, ZMIANA_REJESTRU_WYTEMP, 
   ZMIANA_REJESTRU_WYTEMPNAST} from "../actions/types";
 
 export default function register(state={}, action={}) {
-  // let zmiana=[]
-  switch (action.type) {
+  let type, dane;
+  if (action.type === WEBSOCKET_MESSAGE){
+    let payload = JSON.parse(action.payload.data);
+    type = payload.key;
+    dane = payload.value;
+    // console.log(type, typeof(type), dane);
+  } 
+  switch (type) {
     case ODCZYT_REJESTRU:
-      console.log("to odczyt", action.type, action.dane);
-      return {wyjscia: [...action.dane.wyjscia], wyTemp: [...action.dane.wyTemp], 
-        wyTempNast: [...action.dane.wyTempNast], wySatel: initSatel()};
+      return {wyjscia: [...dane.wyjscia], wyTemp: [...dane.wyTemp], 
+        wyTempNast: [...dane.wyTempNast], wySatel: initSatel()};
     case ZMIANA_REJESTRU_WYJSCIA:
       return {...state, 
-        wyjscia: tableWithChanges([...state.wyjscia], action.dane)}
+        wyjscia: tableWithChanges([...state.wyjscia], dane)}
     case ZMIANA_REJESTRU_WYSATEL:
       return {...state, 
-        wySatel: tableWithChanges([...state.wySatel], action.dane)}
+        wySatel: tableWithChanges([...state.wySatel], dane)}
     case ZMIANA_REJESTRU_WYTEMP:
       return {...state, 
-        wyTemp: tableWithChanges([...state.wyTemp], action.dane)}
+        wyTemp: tableWithChanges([...state.wyTemp], dane)}
     case ZMIANA_REJESTRU_WYTEMPNAST:
       return {...state, 
-        wyTempNast: tableWithChanges([...state.wyTempNast], action.dane)}
-
+        wyTempNast: tableWithChanges([...state.wyTempNast], dane)}
     default:
       return state;
   }

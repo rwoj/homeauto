@@ -1,38 +1,30 @@
 import React from 'react'
+import {connect} from 'react-redux'
+import {wyjsciaHashSelector} from '../../store/reducers/register'
+import {konfigSelector} from '../../store/reducers/ustawienia'
+import { wsSend } from "../../store/actions/websocket";
+
 // import { Button } from 'react-native-elements'
 import { StyleSheet, Text, View, SectionList, TouchableOpacity } from 'react-native'
-import {connect} from 'react-redux'
-import {wyjsciaHashSelector} from '../store/reducers/register'
-import {konfigSelector} from '../store/reducers/ustawienia'
-import SwiatloForm from './SwiatloForm'
-// import api from '../api'
+
+import SwiatloForm from '../../components/SwiatloForm'
 
 class Swiatlo extends React.Component {
-    // static navigationOptions: {
-    //     title: 'Swiatla',
-    //     headerStyle: {
-    //         backgroundColor: '#c9d5df'
-    //     }
-    // }
+    static navigationOptions: {
+        title: 'Swiatla',
+        headerStyle: {
+            backgroundColor: '#c9d5df'
+        }
+    }
     state={
-        poziom: 'parter', 
-        ws: null 
+        poziom: 'parter'
     }
-    componentDidMount () {
-        this.setState({ws: this.props.navigation.getParam('ws', null)})
-    }
-    // componentWillUnmount(){
-    //     this.setState({ws: null})
-    // }
-    zapisz = (address, value)=> {
-        console.log(this.state.ws, address, value);
-        this.state.ws.send(JSON.stringify('zmianaSwiatla', 
-        {address, value, temp: false}))
-    }
-    // (obj) => this.ws.send(JSON.stringify(obj))
-        // console.log(addr,value);
-    // api.rejestr.wyslijZmiane(addr, value)
-    
+    zapisz = (address, value)=> this.props.wsSend(
+        {
+            key: 'zmianaSwiatla', 
+            value:{address, value, temp: false}
+        })
+
     render(){
         const {poziom} = this.state
         const {konfig, wyjscia} = this.props
@@ -98,8 +90,13 @@ function mapStateToProps (state){
       konfig: konfigSelector(state), 
     }
   }
+const mapDispatchToProps = dispatch => {
+    return {
+        wsSend: (dane) => dispatch(wsSend(dane))
+    }
+}
 
-export default connect(mapStateToProps)(Swiatlo)
+export default connect(mapStateToProps, mapDispatchToProps)(Swiatlo)
 
 const styles = StyleSheet.create({
     container: {

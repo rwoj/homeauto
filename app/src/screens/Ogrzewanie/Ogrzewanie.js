@@ -1,26 +1,28 @@
-import React from 'react'
-import { StyleSheet, Text, View, SectionList, TouchableOpacity } from 'react-native'
-import {connect} from 'react-redux'
+import React from 'react';
+import {connect} from 'react-redux';
+import {konfigTempSelector} from '../../store/reducers/ustawienia';
 import {wyjsciaHashSelector, wyTempHashSelector, 
-  wyTempNastHashSelector} from '../store/reducers/register'
-import {konfigTempSelector} from '../store/reducers/ustawienia'
-import OgrzewanieForm from './OgrzewanieForm'
-// import api from '../api'
+  wyTempNastHashSelector} from '../../store/reducers/register';
+import { wsSend } from "../../store/actions/websocket";
 
+import { StyleSheet, Text, View, SectionList, TouchableOpacity } from 'react-native';
+import OgrzewanieForm from '../../components/OgrzewanieForm';
+  
 class Ogrzewanie extends React.Component {
   static navigationOptions: {
     title: 'Ogrzewanie',
     headerStyle: {
         backgroundColor: '#c9d5df'
     }
-};
+  };
   state={
     poziom: 'all',
   }
-  zapisz = (addr, value)=> 
-    console.log(addr,value);
-    // api.rejestr.wyslijZmianeTemp(addr, value)
-    //     .catch(err => console.log(err))
+  zapisz = (address, value)=> this.props.wsSend(
+    {
+        key: 'zmianaTemperatury', 
+        value:{address, value, temp: true}
+    })
 
   render(){
     const {poziom} = this.state
@@ -28,8 +30,6 @@ class Ogrzewanie extends React.Component {
     const currentTemp=[{"poziom": 'parter', "data": []},
                         {"poziom": 'pietro', "data": []}]
     const currentTempCalyDom =[{"poziom": 'calyDom', "data": []}]
-    
-    // console.log("konfig", konfigTemp)
 
     konfigTemp.map(x=>{
       // console.log(x.idTempWy, wyTemp[0].id)
@@ -80,8 +80,13 @@ function mapStateToProps (state){
       konfigTemp: konfigTempSelector(state)
     }
 }
+const mapDispatchToProps = dispatch => {
+  return {
+      wsSend: (dane) => dispatch(wsSend(dane))
+  }
+}
 
-export default connect(mapStateToProps)(Ogrzewanie)
+export default connect(mapStateToProps, mapDispatchToProps)(Ogrzewanie)
 
 const styles = StyleSheet.create({
   container: {

@@ -1,8 +1,7 @@
-import { createStore, compose } from "redux";
+import websocket from '@giantmachines/redux-websocket';
+import { createStore, compose, applyMiddleware } from "redux";
 import rootReducer from "./reducers";
 
-// import thunk from "redux-thunk";
-// applyMiddleware(thunk)
 let composeEnhancers = compose;
 
 if (__DEV__) {
@@ -10,7 +9,10 @@ if (__DEV__) {
 }
 
 const configureStore = () => {
-  return createStore(rootReducer, composeEnhancers());
+  return createStore(
+    rootReducer, 
+    composeEnhancers(applyMiddleware(websocket))
+    );
 };
 
 export default configureStore;

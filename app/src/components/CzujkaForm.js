@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, Text, View, TouchableOpacity, FlatList } from 'react-native'
+import { StyleSheet, Text, View, FlatList } from 'react-native'
 
 const CzujkaForm =({howManyActive, currentCzujki})=>(
     <View style={styles.box}>    

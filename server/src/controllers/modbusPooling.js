@@ -1,4 +1,7 @@
 import {broadcast} from './clientsCommunication';
+import {ZMIANA_REJESTRU_WYJSCIA, 
+    ZMIANA_REJESTRU_WYSATEL, ZMIANA_REJESTRU_WYTEMP, 
+    ZMIANA_REJESTRU_WYTEMPNAST} from '../types'
 import {whatChanged, whatChangedTemp, tempParser, buildTempBuff} from './readingsHandler';
 import register  from '../Registers/StateRegister';
 
@@ -53,20 +56,20 @@ function handleModbusResult (res){
     let wyjsciaZmiany = whatChanged(res[0].data, 
         register.wyjscia.adres, register.wyjscia.rej_last);
     if (wyjsciaZmiany.length>0){
-        broadcast('wyjscia', wyjsciaZmiany);
+        broadcast(ZMIANA_REJESTRU_WYJSCIA, wyjsciaZmiany);
         register.wyjscia.rej_last=[...res[0].data];
     }
     let wySatelZmiany = whatChanged(res[1].data,
         register.wySatel.adres, register.wySatel.rej_last);
     if (wySatelZmiany.length>0){
-        broadcast('wySatel', wySatelZmiany);
+        broadcast(ZMIANA_REJESTRU_WYSATEL, wySatelZmiany);
         register.wySatel.rej_last=[...res[1].data]; 
     }
     let tempZmiany = whatChangedTemp(tempParser(res[2].buffer),
         register.wyTemp.adres, register.wyTemp.rej_last1, 
         register.wyTemp.rej_last2, register.wyTemp.rej_last3);
     if (tempZmiany.length>0){
-        broadcast('wyTemp', tempZmiany );
+        broadcast(ZMIANA_REJESTRU_WYTEMP, tempZmiany );
     }
     register.wyTemp.rej_last1 = [...tempParser(res[2].buffer)];
     register.wyTemp.rej_last2 = [...register.wyTemp.rej_last1];
@@ -75,7 +78,7 @@ function handleModbusResult (res){
     let tempNastZmiany = whatChangedTemp(tempParser(res[3].buffer),
         register.tempNast.adres, register.tempNast.rej_last);
     if(tempNastZmiany.length>0){
-        broadcast('wyTempNast', tempNastZmiany); 
+        broadcast(ZMIANA_REJESTRU_WYTEMPNAST, tempNastZmiany); 
     }
     register.tempNast.rej_last = [...tempParser(res[3].buffer)]; 
 }

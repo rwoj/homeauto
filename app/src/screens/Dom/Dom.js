@@ -1,19 +1,12 @@
 import React from 'react'
 import {connect} from 'react-redux'
+import {konfigSelector} from '../../store/reducers/ustawienia'
+import {wyjsciaHashSelector, wySatelHashSelector} from '../../store/reducers/register'
+import { wsConnect, wsDisconnect } from "../../store/actions/websocket";
+
 // import {Button} from 'react-native-elements'
 import { StyleSheet, Text, View, TouchableOpacity , SectionList } from 'react-native'
-import {wyjsciaHashSelector, wySatelHashSelector} from '../../store/reducers/register'
-import {konfigSelector} from '../../store/reducers/ustawienia'
 import CzujkaForm from '../../components/CzujkaForm'
-// import {initRejestr, zmienRejestr} from '../../store/actions/rejestr'
-import {odczytRejestru, zmianaRejestruWyjscia, zmianaRejestruWySatel, 
-    zmianaRejestruWyTemp, zmianaRejestruWyTempNast} from "../../store/actions/rejestr"
-
-const States = {
-    CONNECTED: 'connected',
-    CONNECTING: 'connecting',
-    DISCONNECTED: 'disconnected'
-  };
 
 class Dom extends React.Component {
     static navigationOptions: {
@@ -22,51 +15,9 @@ class Dom extends React.Component {
             backgroundColor: '#c9d5df'
         }
     };
-    state = {
-        status: States.DISCONNECTED,
-        interval: null,
-    };
-    componentDidMount () {
-        this.connect();
-    }
-    componentWillUnmount () {
-        this.ws.close();
-    }
-    connect () {
-        this.ws = new WebSocket('ws://192.168.0.205:8080');
-        this.ws.onopen = () => this.onConnectionOpen();
-        this.ws.onclose = () => this.onConnectionClose();
-        this.ws.onmessage = (event) => this.onConnectionMessage(event);
-        this.ws.sendJSON = (obj) => this.ws.send(JSON.stringify(obj));
-        this.setState({status: States.CONNECTING});
-    }
-    onConnectionOpen () {
-        console.log("on connection open");
-        this.setState({status: States.CONNECTED});
-    }
-    onConnectionClose () {
-        this.setState({ status: States.DISCONNECTED });
-        // reconnect mechanics
-        const interval = setInterval(() => {
-            if (this.state.status === States.CONNECTING || this.state.status === States.CONNECTED) {
-                clearInterval(this.state.interval);
-                return;
-            }
-            this.connect();
-        }, 1000)
-        this.setState({interval});
-    }
-    onConnectionMessage (event) {
-        const data = JSON.parse(event.data);
-        if (data.key === 'initRejestr'){
-            this.props.initRejestr(data.value);
-        } else {
-            this.props.zmienRejestr(data);
-        }
-    }
 
-    onConnectionWriteHandler = (key, value) => 
-        this.ws.sendJSON({key, value});
+    componentDidMount () { this.props.wsConnect(); }
+    componentWillUnmount () { this.props.wsDisconnect(); }
 
     render(){
         const {wyjscia, wySatel, konfig} = this.props
@@ -137,22 +88,8 @@ const mapStateToProps = state => {
 }
 const mapDispatchToProps = dispatch => {
     return {
-        initRejestr: dane => dispatch(odczytRejestru(dane)), 
-        zmienRejestr: dane => {
-                // console.log(dane.key, dane.value);
-                if (dane.key==='wyjscia'){
-                    dispatch(zmianaRejestruWyjscia(dane.value))
-                }
-                if (dane.key==='wySatel'){
-                    dispatch(zmianaRejestruWySatel(dane.value))
-                }
-                if (dane.key==='wyTemp'){
-                    dispatch(zmianaRejestruWyTemp(dane.value))
-                }
-                if (dane.key==='wyTempNast'){
-                    dispatch(zmianaRejestruWyTempNast(dane.value))
-                }
-            }
+        wsConnect: () => dispatch(wsConnect()),
+        wsDisconnect: () => dispatch(wsDisconnect())
     }
 }
 

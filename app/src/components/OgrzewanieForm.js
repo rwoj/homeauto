@@ -1,6 +1,6 @@
 import React from 'react'
-import { StyleSheet, Text, View, TouchableOpacity, FlatList } from 'react-native'
 import {Icon} from 'react-native-elements'
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 
 class OgrzewanieForm extends React.Component {
     state={
