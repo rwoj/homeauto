@@ -8,7 +8,7 @@ export const zmianaRejestruWySatel = (dane) => ({type: ZMIANA_REJESTRU_WYSATEL, 
 export const zmianaRejestruWyTemp = (dane) => ({type: ZMIANA_REJESTRU_WYTEMP, dane})
 export const zmianaRejestruWyTempNast = (dane) => ({type: ZMIANA_REJESTRU_WYTEMPNAST, dane})
 
-// export const initRejestr = dane => dispatch => dispatch(odczytRejestru(dane));
+// export const initRejestr = dane => dispatch => dispatch(odczytRejestru(dane))
 
 // export const zmienRejestr = dane => dispatch => {
 //     // console.log("msg zmiany :", dane.key, dane.value);

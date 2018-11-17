@@ -2,11 +2,18 @@ import React from 'react'
 import {connect} from 'react-redux'
 // import {Button} from 'react-native-elements'
 import { StyleSheet, Text, View, TouchableOpacity , SectionList } from 'react-native'
-import {wyjsciaHashSelector, wySatelHashSelector} from '../reducers/register'
-import {konfigSelector} from '../reducers/ustawienia'
-import CzujkaForm from './CzujkaForm'
-// import {zmienRejestr} from '../actions/rejestr'
+import {wyjsciaHashSelector, wySatelHashSelector} from '../../store/reducers/register'
+import {konfigSelector} from '../../store/reducers/ustawienia'
+import CzujkaForm from '../../components/CzujkaForm'
+// import {initRejestr, zmienRejestr} from '../../store/actions/rejestr'
+import {odczytRejestru, zmianaRejestruWyjscia, zmianaRejestruWySatel, 
+    zmianaRejestruWyTemp, zmianaRejestruWyTempNast} from "../../store/actions/rejestr"
 
+const States = {
+    CONNECTED: 'connected',
+    CONNECTING: 'connecting',
+    DISCONNECTED: 'disconnected'
+  };
 
 class Dom extends React.Component {
     static navigationOptions: {
@@ -15,10 +22,52 @@ class Dom extends React.Component {
             backgroundColor: '#c9d5df'
         }
     };
-    // componentDidMount(){
-    //     const socket = openSocket('http://192.168.0.133:8081')
-    //     socket.on('zmiana', zmienRejestr)
-    // }
+    state = {
+        status: States.DISCONNECTED,
+        interval: null,
+    };
+    componentDidMount () {
+        this.connect();
+    }
+    componentWillUnmount () {
+        this.ws.close();
+    }
+    connect () {
+        this.ws = new WebSocket('ws://192.168.0.205:8080');
+        this.ws.onopen = () => this.onConnectionOpen();
+        this.ws.onclose = () => this.onConnectionClose();
+        this.ws.onmessage = (event) => this.onConnectionMessage(event);
+        this.ws.sendJSON = (obj) => this.ws.send(JSON.stringify(obj));
+        this.setState({status: States.CONNECTING});
+    }
+    onConnectionOpen () {
+        console.log("on connection open");
+        this.setState({status: States.CONNECTED});
+    }
+    onConnectionClose () {
+        this.setState({ status: States.DISCONNECTED });
+        // reconnect mechanics
+        const interval = setInterval(() => {
+            if (this.state.status === States.CONNECTING || this.state.status === States.CONNECTED) {
+                clearInterval(this.state.interval);
+                return;
+            }
+            this.connect();
+        }, 1000)
+        this.setState({interval});
+    }
+    onConnectionMessage (event) {
+        const data = JSON.parse(event.data);
+        if (data.key === 'initRejestr'){
+            this.props.initRejestr(data.value);
+        } else {
+            this.props.zmienRejestr(data);
+        }
+    }
+
+    onConnectionWriteHandler = (key, value) => 
+        this.ws.sendJSON({key, value});
+
     render(){
         const {wyjscia, wySatel, konfig} = this.props
         const currentCzujki=[]
@@ -50,7 +99,8 @@ class Dom extends React.Component {
                     {/* </View> */}
                     <View style={styles.boxes}>
                         <TouchableOpacity style={styles.boxPress} 
-                            onPress={() => this.props.navigation.navigate('Swiatlo')}>
+                            onPress={() => this.props.navigation
+                                .navigate('Swiatlo', {ws: this.ws})}>
                             <Text style={styles.text}> Swiatla </Text>
                         </TouchableOpacity>    
                         <TouchableOpacity style={styles.boxPress} 
@@ -78,15 +128,35 @@ class Dom extends React.Component {
     }
 }
 
-function mapStateToProps (state){
+const mapStateToProps = state => {
     return {
         wyjscia: wyjsciaHashSelector(state),
         wySatel: wySatelHashSelector(state),
         konfig: konfigSelector(state), 
     }
-  }
+}
+const mapDispatchToProps = dispatch => {
+    return {
+        initRejestr: dane => dispatch(odczytRejestru(dane)), 
+        zmienRejestr: dane => {
+                // console.log(dane.key, dane.value);
+                if (dane.key==='wyjscia'){
+                    dispatch(zmianaRejestruWyjscia(dane.value))
+                }
+                if (dane.key==='wySatel'){
+                    dispatch(zmianaRejestruWySatel(dane.value))
+                }
+                if (dane.key==='wyTemp'){
+                    dispatch(zmianaRejestruWyTemp(dane.value))
+                }
+                if (dane.key==='wyTempNast'){
+                    dispatch(zmianaRejestruWyTempNast(dane.value))
+                }
+            }
+    }
+}
 
-export default connect(mapStateToProps)(Dom)
+export default connect(mapStateToProps, mapDispatchToProps)(Dom)
 
 const styles = StyleSheet.create({
     container: {

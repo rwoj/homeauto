@@ -1,8 +1,9 @@
 import React from 'react'
 import { StyleSheet, Text, View, SectionList, TouchableOpacity } from 'react-native'
 import {connect} from 'react-redux'
-import {wyjsciaHashSelector, wyTempHashSelector, wyTempNastHashSelector} from '../reducers/register'
-import {konfigTempSelector} from '../reducers/ustawienia'
+import {wyjsciaHashSelector, wyTempHashSelector, 
+  wyTempNastHashSelector} from '../store/reducers/register'
+import {konfigTempSelector} from '../store/reducers/ustawienia'
 import OgrzewanieForm from './OgrzewanieForm'
 // import api from '../api'
 

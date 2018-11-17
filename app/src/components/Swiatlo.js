@@ -2,25 +2,37 @@ import React from 'react'
 // import { Button } from 'react-native-elements'
 import { StyleSheet, Text, View, SectionList, TouchableOpacity } from 'react-native'
 import {connect} from 'react-redux'
-import {wyjsciaHashSelector} from '../reducers/register'
-import {konfigSelector} from '../reducers/ustawienia'
+import {wyjsciaHashSelector} from '../store/reducers/register'
+import {konfigSelector} from '../store/reducers/ustawienia'
 import SwiatloForm from './SwiatloForm'
 // import api from '../api'
 
 class Swiatlo extends React.Component {
-    static navigationOptions: {
-        title: 'Swiatla',
-        headerStyle: {
-            backgroundColor: '#c9d5df'
-        }
-    };
+    // static navigationOptions: {
+    //     title: 'Swiatla',
+    //     headerStyle: {
+    //         backgroundColor: '#c9d5df'
+    //     }
+    // }
     state={
-        poziom: 'parter'
+        poziom: 'parter', 
+        ws: null 
     }
-    zapisz = (addr, value)=> 
-    console.log(addr,value);
+    componentDidMount () {
+        this.setState({ws: this.props.navigation.getParam('ws', null)})
+    }
+    // componentWillUnmount(){
+    //     this.setState({ws: null})
+    // }
+    zapisz = (address, value)=> {
+        console.log(this.state.ws, address, value);
+        this.state.ws.send(JSON.stringify('zmianaSwiatla', 
+        {address, value, temp: false}))
+    }
+    // (obj) => this.ws.send(JSON.stringify(obj))
+        // console.log(addr,value);
     // api.rejestr.wyslijZmiane(addr, value)
-
+    
     render(){
         const {poziom} = this.state
         const {konfig, wyjscia} = this.props

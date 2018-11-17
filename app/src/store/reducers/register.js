@@ -7,7 +7,7 @@ export default function register(state={}, action={}) {
   // let zmiana=[]
   switch (action.type) {
     case ODCZYT_REJESTRU:
-      // console.log(action.type, action.dane);
+      console.log("to odczyt", action.type, action.dane);
       return {wyjscia: [...action.dane.wyjscia], wyTemp: [...action.dane.wyTemp], 
         wyTempNast: [...action.dane.wyTempNast], wySatel: initSatel()};
     case ZMIANA_REJESTRU_WYJSCIA:
