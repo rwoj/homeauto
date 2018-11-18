@@ -4,18 +4,22 @@ import {konfigSelector} from '../../store/reducers/ustawienia'
 import {wyjsciaHashSelector, wySatelHashSelector} from '../../store/reducers/register'
 import { wsConnect, wsDisconnect } from "../../store/actions/websocket";
 
-// import {Button} from 'react-native-elements'
-import { StyleSheet, Text, View, TouchableOpacity , SectionList } from 'react-native'
-import CzujkaForm from '../../components/CzujkaForm'
+import { StyleSheet, View } from 'react-native';
+import SwiatlaBox from '../../components/Swiatlo/SwiatlaBox';
+import OgrzewanieBox from '../../components/Ogrzewanie/OgrzewanieBox';
+import CzujkaForm from '../../components/Czujki/CzujkaForm';
 
 class Dom extends React.Component {
     static navigationOptions: {
         title: 'Sterowanie domem',
-        headerStyle: {
-            backgroundColor: '#c9d5df'
-        }
+        // headerStyle: {
+        //     backgroundColor: '#c9d5df',
+        // }, 
+        // headerTintColor: '#fff',
+        // headerTitleStyle: {
+        //   fontWeight: 'bold',
+        // },
     };
-
     componentDidMount () { this.props.wsConnect(); }
     componentWillUnmount () { this.props.wsDisconnect(); }
 
@@ -44,36 +48,12 @@ class Dom extends React.Component {
 
         return (
             <View style={styles.container}>
-                <View style={styles.box}>
-                    {/* <View style={styles.boxes}> */}
-                        <Text style={styles.text}> Włączone światła: {howManyLights}  </Text>
-                    {/* </View> */}
-                    <View style={styles.boxes}>
-                        <TouchableOpacity style={styles.boxPress} 
-                            onPress={() => this.props.navigation
-                                .navigate('Swiatlo', {ws: this.ws})}>
-                            <Text style={styles.text}> Swiatla </Text>
-                        </TouchableOpacity>    
-                        <TouchableOpacity style={styles.boxPress} 
-                            onPress={() => this.props.navigation.navigate('Efekty')}>
-                            <Text style={styles.text}> Sceny </Text>
-                        </TouchableOpacity>    
-                    </View>
-                </View>
-                <View style={styles.box}>
-                    <Text style={styles.text}> Włączone grzejniki: {howManyGrzanie}  </Text>
-                    <View style={styles.boxes}>
-                        <TouchableOpacity style={styles.boxPress} 
-                            onPress={() => this.props.navigation.navigate('Ogrzewanie')}>
-                            <Text style={styles.text} >Ogrzewanie</Text>
-                        </TouchableOpacity>       
-                        <TouchableOpacity style={styles.boxPress} 
-                            onPress={() => this.props.navigation.navigate('Harmonogram')}>
-                            <Text style={styles.text}> Plan </Text>
-                        </TouchableOpacity>    
-                    </View>    
-                </View>
-                <CzujkaForm howManyActive={howManyActive} currentCzujki={currentCzujki} />
+                <SwiatlaBox howManyLights={howManyLights}
+                    navigation={this.props.navigation} />                   
+                <OgrzewanieBox howManyGrzanie={howManyGrzanie}
+                    navigation={this.props.navigation} />                   
+                <CzujkaForm howManyActive={howManyActive} 
+                    currentCzujki={currentCzujki} />
             </View>
         )
     }
@@ -99,43 +79,6 @@ const styles = StyleSheet.create({
     container: {
       flex: 1,
       backgroundColor: '#202c36',
-    },
-    box: {
-        flex: 1,
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: 'steelblue',
-        borderRadius: 20,
-        height: 250,
-        margin: 10,
-    },
-    boxes: {
-        flex: 1, 
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: 'steelblue',
-        borderRadius: 20,
-        margin: 10,
-    },
-    boxPress: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: 'chocolate',
-        borderStyle: 'solid',
-        borderColor: '#3e2a19',
-        borderWidth: 5,
-        borderRadius: 20,
-        width: 170,
-        height: 100,
-        margin: 10,
-    },
-    text: {
-        margin: 10,
-        color: '#202c36',
-        fontSize: 24,
-        fontWeight: 'bold',
-        padding: 6, 
-    },
-  })
+    }
+  }
+)

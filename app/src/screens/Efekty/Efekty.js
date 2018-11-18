@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, SectionList } from 'react-native';
 
-const Efekty =()=>(
+const Efekty = () => (
     // navigationOptions: {
     //     title: 'Efekty/sceny',
     //     headerStyle: {

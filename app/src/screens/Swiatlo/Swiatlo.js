@@ -4,10 +4,10 @@ import {wyjsciaHashSelector} from '../../store/reducers/register'
 import {konfigSelector} from '../../store/reducers/ustawienia'
 import { wsSend } from "../../store/actions/websocket";
 
-// import { Button } from 'react-native-elements'
-import { StyleSheet, Text, View, SectionList, TouchableOpacity } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 
-import SwiatloForm from '../../components/SwiatloForm'
+import SwiatloHeader from '../../components/Swiatlo/SwiatloHeader';
+import SwiatloList from '../../components/Swiatlo/SwiatloList';
 
 class Swiatlo extends React.Component {
     static navigationOptions: {
@@ -16,14 +16,12 @@ class Swiatlo extends React.Component {
             backgroundColor: '#c9d5df'
         }
     }
-    state={
-        poziom: 'parter'
-    }
-    zapisz = (address, value)=> this.props.wsSend(
-        {
-            key: 'zmianaSwiatla', 
-            value:{address, value, temp: false}
-        })
+    state = { poziom: 'parter' }
+    zapisz = (address, value)=> this.props.wsSend({   
+        key: 'zmianaSwiatla', 
+        value:{address, value, temp: false}
+    });
+    zmienPoziom = (poziom) => this.setState({poziom});
 
     render(){
         const {poziom} = this.state
@@ -61,85 +59,26 @@ class Swiatlo extends React.Component {
 
         return (
             <View style={styles.container}>
-                <View style={styles.buttons}>
-                    <TouchableOpacity onPress={()=>this.setState({poziom: 'parter'})}> 
-                        <Text style={styles.item}>Parter</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={()=>this.setState({poziom: 'pietro'})} text="Piętro">
-                        <Text style={styles.item}>Piętro</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity  onPress={()=>this.setState({poziom: 'calyDom'})}>
-                        <Text style={styles.item}>Zewnętrzne</Text>
-                    </TouchableOpacity>
-                </View>    
-                <SectionList style={styles.box}
-                    sections={dataToShow}
-                    renderItem={({item}) => 
-                        <SwiatloForm item={item} zapisz={this.zapisz}/>}    
-                    renderSectionHeader={({section}) => 
-                        <Text style={styles.sectionHeader}>{section.lokal}</Text>}
-                    keyExtractor={(item, index) => index}
+                <SwiatloHeader zmienPoziom={this.zmienPoziom} />
+                <SwiatloList 
+                    dataToShow={dataToShow}
+                    zapisz={this.zapisz}
                 />
             </View>
         )
     }
 }
-function mapStateToProps (state){
-    return {
+const mapStateToProps = (state) => ({
       wyjscia: wyjsciaHashSelector(state),
       konfig: konfigSelector(state), 
-    }
-  }
-const mapDispatchToProps = dispatch => {
-    return {
-        wsSend: (dane) => dispatch(wsSend(dane))
-    }
-}
+})
+const mapDispatchToProps = dispatch => ({ wsSend: (dane) => dispatch(wsSend(dane))})
 
 export default connect(mapStateToProps, mapDispatchToProps)(Swiatlo)
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        flexDirection: 'column',
-        justifyContent: 'flex-start',
         backgroundColor: '#202c36',
-    },
-    buttons: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        backgroundColor: '#202c36',
-        // height: 60,
-        margin: 10
-    },
-    box: {
-        flex: 1,
-        backgroundColor: 'chocolate',
-        borderStyle: 'solid',
-        borderColor: '#3e2a19',
-        borderWidth: 5,
-        borderRadius: 10,
-        height: 500,
-        margin: 10,
-    },
-    sectionHeader: {
-      paddingTop: 5,
-      paddingLeft: 10,
-      paddingRight: 10,
-      paddingBottom: 2,
-      fontSize: 24,
-      fontWeight: 'bold',
-      backgroundColor: '#3e2a19',
-      color: '#c9d5df'
-    },
-    item: {
-        marginRight: 5,
-        marginLeft: 5,
-        color: '#c9d5df',
-        backgroundColor: '#3b84c4',
-        borderRadius: 10,
-        fontSize: 32,
-        padding: 5,
-        fontWeight: 'bold',
     }
   })

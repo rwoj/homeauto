@@ -1,5 +1,7 @@
 import React from 'react'
-import { StyleSheet, Text, View, FlatList } from 'react-native'
+import { StyleSheet, Text, View, FlatList, Dimensions } from 'react-native'
+
+const width = Dimensions.get('window').width; 
 
 const CzujkaForm =({howManyActive, currentCzujki})=>(
     <View style={styles.box}>    
@@ -12,37 +14,30 @@ const CzujkaForm =({howManyActive, currentCzujki})=>(
                 </Text>}
         />
     </View>    
-
 )
 export default CzujkaForm
-
 
 const styles = StyleSheet.create({
     box: {
         flex: 1,
-        flexDirection: 'column',
         alignItems: 'center',
-        justifyContent: 'center',
         backgroundColor: 'steelblue',
         borderRadius: 20,
-        height: 250,
-        margin: 10,
+        margin: 5,
     },
     text: {
-        margin: 10,
         color: '#202c36',
         fontSize: 24,
         fontWeight: 'bold',
-        padding: 6, 
+        margin: 5,
     },
     item: {
-        width: 350,
+        width: width-40,
+        borderRadius: 5,
         color: '#3e2a19',
         backgroundColor: '#e3791c',
-        borderRadius: 10,
         fontSize: 20,
         fontWeight: 'bold',
-        marginLeft: 30,
-        marginRight: 30,
+        paddingLeft: 10,
     }
-  })
+})

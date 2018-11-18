@@ -16,5 +16,14 @@ export default App = createStackNavigator(
     },
     {
         initialRouteName: 'Dom',
+        defaultNavigationOptions: {
+            headerStyle: {
+              backgroundColor: '#f4511e',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+          },
     }
 )

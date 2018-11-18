@@ -6,7 +6,9 @@ import {wyjsciaHashSelector, wyTempHashSelector,
 import { wsSend } from "../../store/actions/websocket";
 
 import { StyleSheet, Text, View, SectionList, TouchableOpacity } from 'react-native';
-import OgrzewanieForm from '../../components/OgrzewanieForm';
+import OgrzewanieHeader from '../../components/Ogrzewanie/OgrzewanieHeader';
+import OgrzewanieList from '../../components/Ogrzewanie/OgrzewanieList';
+
   
 class Ogrzewanie extends React.Component {
   static navigationOptions: {
@@ -18,11 +20,11 @@ class Ogrzewanie extends React.Component {
   state={
     poziom: 'all',
   }
-  zapisz = (address, value)=> this.props.wsSend(
-    {
-        key: 'zmianaTemperatury', 
-        value:{address, value, temp: true}
-    })
+  zapisz = (address, value)=> this.props.wsSend({
+      key: 'zmianaTemperatury', 
+      value:{address, value, temp: true}
+  })
+  zmienPoziom = (poziom) => this.setState({poziom});
 
   render(){
     const {poziom} = this.state
@@ -52,21 +54,10 @@ class Ogrzewanie extends React.Component {
 
     return (
       <View style={styles.container}>
-        <View style={styles.buttons}>
-          <TouchableOpacity onPress={()=>this.setState({poziom: 'all'})}> 
-            <Text style={styles.item}>Parter/Piętro</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={()=>this.setState({poziom: 'calyDom'})}>
-            <Text style={styles.item}>Pozostałe</Text>
-          </TouchableOpacity>
-        </View>    
-        <SectionList style={styles.box}
-          sections={poziom==='all'?currentTemp:currentTempCalyDom}
-          renderItem={({item}) => 
-            <OgrzewanieForm item = {item} zapisz={this.zapisz}/>}
-          renderSectionHeader={({section}) => 
-            <Text style={styles.sectionHeader}>{section.poziom}</Text>}
-          keyExtractor={(item, index) => index}
+        <OgrzewanieHeader zmienPoziom={this.zmienPoziom} />
+        <OgrzewanieList 
+          dataToShow={(poziom==='all')?currentTemp:currentTempCalyDom}
+          zapisz={this.zapisz}
         />
       </View>
     )
@@ -94,42 +85,5 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'flex-start',
     backgroundColor: '#202c36',
-  },
-  buttons: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    backgroundColor: '#202c36',
-    // height: 60,
-    margin: 10
-    },
-  box: {
-    flex: 1,
-    backgroundColor: 'chocolate',
-    borderStyle: 'solid',
-    borderColor: '#3e2a19',
-    borderWidth: 5,
-    borderRadius: 10,
-    height: 500,
-    margin: 10,
-  },
-  sectionHeader: {
-    paddingTop: 5,
-    paddingLeft: 10,
-    paddingRight: 10,
-    paddingBottom: 2,
-    fontSize: 26,
-    fontWeight: 'bold',
-    backgroundColor: '#3e2a19',
-    color: '#c9d5df',
-  },
-  item: {
-    marginRight: 5,
-    marginLeft: 5,
-    color: '#c9d5df',
-    backgroundColor: '#3b84c4',
-    borderRadius: 10,
-    fontSize: 32,
-    padding: 5,
-    fontWeight: 'bold',
   },
 })
