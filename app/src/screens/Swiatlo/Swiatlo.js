@@ -61,6 +61,7 @@ class Swiatlo extends React.Component {
             <View style={styles.container}>
                 <SwiatloHeader zmienPoziom={this.zmienPoziom} />
                 <SwiatloList 
+                    poziom={this.state.poziom}
                     dataToShow={dataToShow}
                     zapisz={this.zapisz}
                 />

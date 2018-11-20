@@ -5,15 +5,14 @@ import { StyleSheet, Text, View, TouchableOpacity} from 'react-native'
 // import { Button } from 'react-native-elements';
 
 const SwiatloForm =({item, zapisz})=>(
-    <View  >
+    // <View>
         <TouchableOpacity  style={styles.itemBox}
-            onPress={()=>zapisz(item.idWySter, item.swiatlo===0?1:0)}>
-
-            <Icon type='font-awesome' name='lightbulb-o' 
-                 size={24} color={item.swiatlo===0?'blue':'yellow'} />  
+                onPress={()=>zapisz(item.idWySter, item.swiatlo===0?1:0)}>
             <Text style={styles.item}>{item.nazwa} </Text>
+            <Icon type='font-awesome' name='lightbulb-o' 
+                    size={36} color={item.swiatlo===0?'blue':'yellow'} />  
         </TouchableOpacity>
-    </View>    
+    // </View>
 )
 
 export default SwiatloForm
@@ -23,16 +22,17 @@ const styles = StyleSheet.create({
     itemBox: {
         flex: 1, 
         flexDirection: 'row',
-        paddingLeft: 40
+        backgroundColor: '#202c36',
     },
     item: {
-        marginRight: 20,
-        marginLeft: 20,
         color: '#3e2a19',
         backgroundColor: '#e3791c',
-        borderRadius: 10,
-        fontSize: 23,
-        padding: 4,
+        fontSize: 22,
         fontWeight: 'bold',
+        width: 160,
+        borderRadius: 5,
+        marginRight: 20,
+        marginLeft: 20,
+        margin: 5,
     }
   })
