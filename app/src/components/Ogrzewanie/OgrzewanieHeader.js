@@ -5,11 +5,17 @@ const width = Dimensions.get('window').width;
 
 export default OgrzewanieHeader =({zmienPoziom})=>(
     <View style={styles.buttons}>
-        <TouchableOpacity onPress={()=>zmienPoziom('all')}> 
-            <Text style={styles.item}>Parter/Piętro</Text>
+        <TouchableOpacity 
+            onPress={()=>zmienPoziom('parter')}> 
+            <Text style={styles.item}>Parter</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={()=>zmienPoziom('calyDom')}>
-            <Text style={styles.item}>Pozostałe</Text>
+        <TouchableOpacity 
+            onPress={()=>zmienPoziom('pietro')} text="Piętro">
+            <Text style={styles.item}>Piętro</Text>
+        </TouchableOpacity>
+        <TouchableOpacity  
+            onPress={()=>zmienPoziom('calyDom')}>
+            <Text style={styles.item}>Inne</Text>
         </TouchableOpacity>
     </View>   
 )
@@ -27,7 +33,7 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         fontSize: 28,
         fontWeight: 'bold',
-        width: width/2 - 20,
+        width: width/3 - 30,
         paddingLeft: 10,
         margin: 5,
     }

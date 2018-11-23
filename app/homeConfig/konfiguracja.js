@@ -1,12 +1,12 @@
 module.exports = {
     konfigTemp: [
-        {id: 1, rodzaj: 'ogrzewanie', idTempWy : 0, idTempNast : 0, idGrzanie : 16943, idGrzanieSter : 16543, nazwa : 'Salon kanałowy', idLokalu : 1, nazwaLokalu : 'Salon', poziom : 'parter'},
+        {id: 1, rodzaj: 'ogrzewanie', idTempWy : 0, idTempNast : 0, idGrzanie : 16943, idGrzanieSter : 16543, nazwa : 'Salon kanałowy', idLokalu : 1, nazwaLokalu : 'Salon', poziom : 'calyDom'},
         {id: 2, rodzaj: 'ogrzewanie', idTempWy : 17203, idTempNast : 16397, idGrzanie : 16942, idGrzanieSter : 16542, nazwa : 'Salon', idLokalu : 1, nazwaLokalu : 'Salon', poziom : 'parter'},
         {id: 4, rodzaj: 'ogrzewanie', idTempWy : 17201, idTempNast : 16393, idGrzanie : 16944, idGrzanieSter : 16544, nazwa : 'Gabinet Gosi', idLokalu : 3, nazwaLokalu : 'Gabinet Gosi', poziom : 'parter'},
         {id: 5, rodzaj: 'ogrzewanie', idTempWy : 17205, idTempNast : 16395, idGrzanie : 16941, idGrzanieSter : 16541, nazwa : 'WC', idLokalu : 4, nazwaLokalu : 'WC', poziom : 'parter'},
         {id: 6, rodzaj: 'ogrzewanie', idTempWy : 17199, idTempNast : 0, idGrzanie : 0, idGrzanieSter : 0, nazwa : 'Wiatrołap', idLokalu : 5, nazwaLokalu : 'Wiatrołap', poziom : 'parter'},
         {id: 8, rodzaj: 'ogrzewanie', idTempWy : 17197, idTempNast : 0, idGrzanie : 0, idGrzanieSter : 0, nazwa : 'Garaż', idLokalu : 7, nazwaLokalu : 'Garaż', poziom : 'parter'},
-        {id: 9, rodzaj: 'ogrzewanie', idTempWy : 0, idTempNast : 0, idGrzanie : 16945, idGrzanieSter : 16545, nazwa : 'Pom. Gospodarcze', idLokalu : 8, nazwaLokalu : 'Pom. Gospodarcze', poziom : 'parter'},
+        {id: 9, rodzaj: 'ogrzewanie', idTempWy : 0, idTempNast : 0, idGrzanie : 16945, idGrzanieSter : 16545, nazwa : 'Pom. Gospodarcze', idLokalu : 8, nazwaLokalu : 'Pom. Gospodarcze', poziom : 'calyDom'},
         {id: 10, rodzaj: 'ogrzewanie', idTempWy : 17209, idTempNast : 16405, idGrzanie : 16949, idGrzanieSter : 16549, nazwa : 'Sypialnia', idLokalu : 9, nazwaLokalu : 'Sypialnia', poziom : 'pietro'},
         {id: 11, rodzaj: 'ogrzewanie', idTempWy : 17213, idTempNast : 16401, idGrzanie : 16947, idGrzanieSter : 16547, nazwa : 'Gabinet Radka', idLokalu : 10, nazwaLokalu : 'Gabinet Radka', poziom : 'pietro'},
         {id: 12, rodzaj: 'ogrzewanie', idTempWy : 17215, idTempNast : 16399, idGrzanie : 16946, idGrzanieSter : 16546, nazwa : 'Pokój Maćka', idLokalu : 11, nazwaLokalu : 'Pokój Maćka', poziom : 'pietro'},
@@ -14,12 +14,12 @@ module.exports = {
         {id: 14, rodzaj: 'ogrzewanie', idTempWy : 17211, idTempNast : 16403, idGrzanie : 16948, idGrzanieSter : 16548, nazwa : 'Łazienka', idLokalu : 13, nazwaLokalu : 'Łazienka', poziom : 'pietro'},
         {id: 15, rodzaj: 'ogrzewanie', idTempWy : 17207, idTempNast : 0, idGrzanie : 0, idGrzanieSter : 0, nazwa : 'Korytarz', idLokalu : 14, nazwaLokalu : 'Korytarz', poziom : 'pietro'},
         {id: 16, rodzaj: 'ogrzewanie', idTempWy : 17219, idTempNast : 0, idGrzanie : 0, idGrzanieSter : 0, nazwa : 'Pralnia', idLokalu : 15, nazwaLokalu : 'Pralnia', poziom : 'pietro'},
-        {id: 19, rodzaj: 'ogrzewanie', idTempWy : 0, idTempNast : 16391, idGrzanie : 0, idGrzanieSter : 0, nazwa : 'Delta', idLokalu : 18, nazwaLokalu : 'Ogólne', poziom : 'calyDom'},
-        {id: 20, rodzaj: 'ogrzewanie', idTempWy : 0, idTempNast : 16389, idGrzanie : 0, idGrzanieSter : 0, nazwa : 'eko', idLokalu : 18, nazwaLokalu : 'Ogólne', poziom : 'calyDom'},
-        {id: 21, rodzaj: 'ogrzewanie', idTempWy : 17221, idTempNast : 0, idGrzanie : 0, idGrzanieSter : 0, nazwa : 'Zewnetrzna', idLokalu : 18, nazwaLokalu : 'Ogólne', poziom : 'calyDom'},
-        {id: 22, rodzaj: 'ogrzewanie', idTempWy : 17223, idTempNast : 0, idGrzanie : 0, idGrzanieSter : 0, nazwa : 'Wymiennik', idLokalu : 18, nazwaLokalu : 'Ogólne', poziom : 'calyDom'},
-        {id: 23, rodzaj: 'ogrzewanie', idTempWy : 17225, idTempNast : 0, idGrzanie : 0, idGrzanieSter : 0, nazwa : 'Nawiew', idLokalu : 18, nazwaLokalu : 'Ogólne', poziom : 'calyDom'},
-        {id: 24, rodzaj: 'ogrzewanie', idTempWy : 17227, idTempNast : 0, idGrzanie : 0, idGrzanieSter : 0, nazwa : 'Wyciag', idLokalu : 18, nazwaLokalu : 'Ogólne', poziom : 'calyDom'}
+        {id: 19, rodzaj: 'ogrzewanie', idTempWy : 16391, idTempNast : 16391, idGrzanie : 0, idGrzanieSter : 0, nazwa : 'Delta', idLokalu : 18, nazwaLokalu : 'Delta', poziom : 'calyDom'},
+        {id: 20, rodzaj: 'ogrzewanie', idTempWy : 16389, idTempNast : 16389, idGrzanie : 0, idGrzanieSter : 0, nazwa : 'eko', idLokalu : 18, nazwaLokalu : 'eko', poziom : 'calyDom'},
+        {id: 21, rodzaj: 'ogrzewanie', idTempWy : 17221, idTempNast : 0, idGrzanie : 0, idGrzanieSter : 0, nazwa : 'Zewnetrzna', idLokalu : 18, nazwaLokalu : "Zewnętrzna", poziom : 'calyDom'},
+        {id: 22, rodzaj: 'ogrzewanie', idTempWy : 17223, idTempNast : 0, idGrzanie : 0, idGrzanieSter : 0, nazwa : 'Wymiennik', idLokalu : 18, nazwaLokalu : 'Wymiennik', poziom : 'calyDom'},
+        {id: 23, rodzaj: 'ogrzewanie', idTempWy : 17225, idTempNast : 0, idGrzanie : 0, idGrzanieSter : 0, nazwa : 'Nawiew', idLokalu : 18, nazwaLokalu : 'Nawiew', poziom : 'calyDom'},
+        {id: 24, rodzaj: 'ogrzewanie', idTempWy : 17227, idTempNast : 0, idGrzanie : 0, idGrzanieSter : 0, nazwa : 'Wyciag', idLokalu : 18, nazwaLokalu : 'Wyciąg', poziom : 'calyDom'}
     ], 
     konfig: [
         {id: 1, rodzaj: 'swiatlo', idWy : 16911, idWySter : 16511, nazwa : 'Jadalnia kinkiet', idLokalu : 1, nazwaLokalu : 'Salon', poziom : 'parter'},

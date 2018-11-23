@@ -1,18 +1,15 @@
 import React from 'react'
 
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { StyleSheet, Text, View, TouchableOpacity} from 'react-native'
-// import { Button } from 'react-native-elements';
+import { StyleSheet, Text, TouchableOpacity} from 'react-native'
 
 const SwiatloForm =({item, zapisz})=>(
-    // <View>
         <TouchableOpacity  style={styles.itemBox}
                 onPress={()=>zapisz(item.idWySter, item.swiatlo===0?1:0)}>
             <Text style={styles.item}>{item.nazwa} </Text>
             <Icon type='font-awesome' name='lightbulb-o' 
                     size={36} color={item.swiatlo===0?'blue':'yellow'} />  
         </TouchableOpacity>
-    // </View>
 )
 
 export default SwiatloForm
@@ -22,7 +19,7 @@ const styles = StyleSheet.create({
     itemBox: {
         flex: 1, 
         flexDirection: 'row',
-        backgroundColor: '#202c36',
+        // backgroundColor: '#202c36',
     },
     item: {
         color: '#3e2a19',

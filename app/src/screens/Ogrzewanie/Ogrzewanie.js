@@ -18,7 +18,7 @@ class Ogrzewanie extends React.Component {
     }
   };
   state={
-    poziom: 'all',
+    poziom: 'parter',
   }
   zapisz = (address, value)=> this.props.wsSend({
       key: 'zmianaTemperatury', 
@@ -30,8 +30,9 @@ class Ogrzewanie extends React.Component {
     const {poziom} = this.state
     const {konfigTemp, wyTemp, wyTempNast, wyjscia} = this.props
     const currentTemp=[{"poziom": 'parter', "data": []},
-                        {"poziom": 'pietro', "data": []}]
-    const currentTempCalyDom =[{"poziom": 'calyDom', "data": []}]
+                        {"poziom": 'pietro', "data": []}, 
+                        {"poziom": 'calyDom', "data": []}]
+    // const currentTempCalyDom =[{"poziom": 'calyDom', "data": []}]
 
     konfigTemp.map(x=>{
       // console.log(x.idTempWy, wyTemp[0].id)
@@ -48,7 +49,8 @@ class Ogrzewanie extends React.Component {
           return currentTemp[1].data.push(
             {...x, ogrzewanie : ogrzewValue, temp: tempValue, tempNast: tempNastValue })
         } 
-        return currentTempCalyDom[0].data.push(
+        // return currentTempCalyDom[0].data.push(
+        return currentTemp[2].data.push(
             {...x, ogrzewanie : ogrzewValue, temp: tempValue, tempNast: tempNastValue })  
     })
 
@@ -56,7 +58,10 @@ class Ogrzewanie extends React.Component {
       <View style={styles.container}>
         <OgrzewanieHeader zmienPoziom={this.zmienPoziom} />
         <OgrzewanieList 
-          dataToShow={(poziom==='all')?currentTemp:currentTempCalyDom}
+          poziom = {poziom}
+          dataToShow={(poziom==='parter')
+            ? currentTemp[0].data
+            :(poziom ==='pietro'? currentTemp[1].data : currentTemp[2].data)}
           zapisz={this.zapisz}
         />
       </View>

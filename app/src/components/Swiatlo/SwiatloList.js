@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 
-import { StyleSheet, SectionList, Text, View } from 'react-native';
-import { ListItem, Overlay } from 'react-native-elements';
+import { StyleSheet, View } from 'react-native';
+import { ListItem } from 'react-native-elements';
 import SwiatloForm from './SwiatloForm';
 
 class SwiatloList extends Component {
@@ -23,6 +23,7 @@ class SwiatloList extends Component {
     }
     
     render(){
+        const {isVisible} = this.state;
         // console.log(this.state.isVisible, this.props.dataToShow)
         const lokaleList = this.props.dataToShow.map((l,i)=>{
             let ileSwiatel = 0;
@@ -36,24 +37,29 @@ class SwiatloList extends Component {
                 titleStyle = {{color: '#c9d5df',
                     fontSize: 28, fontWeight: 'bold'}}
                 badge = {{ value: ileSwiatel, 
-                    textStyle: { color: (ileSwiatel>0)? 'yellow': 'blue'},
-                    fontSize: 20, 
-                    containerStyle: {  } }}
+                    textStyle: { color: (ileSwiatel>0)? 'yellow': 'blue', 
+                    fontSize: 28, fontWeight: 'bold'}
+                    }}
+                     
+                    // containerStyle: { width: 40, height: 40 } 
                 subtitle={
-                    <View 
-                    style={[styles.swiatlaWLokalu, 
-                        {height: l.data.length*40*(this.state.isVisible[i]?1:0)}]}> 
-                        {this.state.isVisible[i] && swiatlaWLokalu}
+                    <View style={[styles.swiatlaWLokalu, 
+                        {height: l.data.length*40*(isVisible[i]?1:0)}]}> 
+                        {isVisible[i] && swiatlaWLokalu}
                     </View>}
                 onPress = {() => {
-                    let changedTbl = [...this.state.isVisible];
+                    let changedTbl = [...isVisible];
                     changedTbl[i] = !changedTbl[i];
                     this.setState({isVisible: [...changedTbl]});
                     }
                     }
                 containerStyle = {{backgroundColor: '#3e2a19'}}
-                chevronColor='#c9d5df'
+                // chevronColor='#c9d5df'
+                chevronColor='#202c36'
                 chevron
+                rightIcon = {
+                    {name: 'arrow-drop-down'}
+                }
                 />)
             }
             )        
@@ -68,23 +74,13 @@ class SwiatloList extends Component {
 
 export default SwiatloList;
 
-// export default SwiatloList =({dataToShow, zapisz})=>(
-//     <SectionList style={styles.box}
-//         sections={dataToShow}
-//         renderItem={({item}) => 
-//             <SwiatloForm item={item} zapisz={zapisz}/>}    
-//         renderSectionHeader={({section}) => 
-//             <Text style={styles.sectionHeader}>{section.lokal}</Text>}
-//         keyExtractor={(item, index) => index}
-//     />
-// )
-
 const styles = StyleSheet.create({
     swiatlaWLokalu: {
-        backgroundColor: '#202c36',
+        // backgroundColor: '#202c36',
         width: 250,
         // height: 100,
     },
+})
     // container: {
     //     flex: 1,
     //     flexDirection: 'column',
@@ -111,4 +107,3 @@ const styles = StyleSheet.create({
     //   backgroundColor: '#3e2a19',
     //   color: '#c9d5df'
     // },
-  })

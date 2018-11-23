@@ -1,5 +1,5 @@
 import React from 'react'
-import {Icon} from 'react-native-elements'
+import {Icon, Button} from 'react-native-elements'
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 
 class OgrzewanieForm extends React.Component {
@@ -23,24 +23,37 @@ class OgrzewanieForm extends React.Component {
 
         return (
         <View style={styles.itemBox}>
-            <Text style={styles.item}> {item.nazwa} </Text>
-            <Text style={styles.temp}> {item.temp} </Text>
             {item.tempNast!==''&& <View style={styles.nastawa}>    
                 <TouchableOpacity onPress={this.decrease}>
-                    <Icon size={30} type='material-community' name='minus-box' color='#3e2a19' /> 
+                    <Icon size={42} type='material-community' name='minus-box' color='#3bb8c4' /> 
                 </TouchableOpacity>
                 <Text style={styles.tempNastawy}>
                     {tempNastawy}
                 </Text>
                 <TouchableOpacity onPress={this.increase}>
-                    <Icon size={30} type='material-community' name='plus-box' color='#3e2a19' /> 
+                    <Icon size={42} type='material-community' name='plus-box' color='#3bb8c4' /> 
                 </TouchableOpacity>
                 <TouchableOpacity onPress={()=>zapisz(item.idTempNast, this.state.tempNastawy)}>
-                    <Icon size={30} type='material-community' name='checkbox-marked' color='#3bb8c4' /> 
+                    <Icon size={42} type='material-community' name='checkbox-marked' color='#3bb8c4' /> 
                 </TouchableOpacity>
                 <Text style={styles.tempNast}> {item.tempNast} </Text>
+                <Button title = 'Plan' 
+                        titleStyle = {{
+                            color: '#3e2a19', 
+                            fontWeight: 'bold'
+                        }}
+                        buttonStyle={{
+                            backgroundColor: "#3bb8c4",
+                            width: 100,
+                            height: 30,
+                            // borderColor: "transparent",
+                            // borderWidth: 0,
+                            borderRadius: 5
+                        }}
+                />   
             </View>}
-            {item.ogrzewanie==1 && <Icon size={30} type='material-icon' name='wb-iridescent' color='red' />}    
+
+            {/* {item.ogrzewanie==1 && <Icon size={20} type='material-icon' name='wb-iridescent' color='red' />}     */}
         </View>    
     )}
 }
@@ -53,40 +66,46 @@ const styles = StyleSheet.create({
         paddingLeft: 5, 
         alignItems: 'flex-end'
     },
-    temp: {
-        color: '#202c36',
-        fontSize: 22,
-        fontWeight: 'bold',
-        marginLeft: 5,
-        marginRight: 5,
-        padding: 3,
-    },
+    // temp: {
+    //     color: '#202c36',
+    //     fontSize: 22,
+    //     fontWeight: 'bold',
+    //     marginLeft: 5,
+    //     marginRight: 5,
+    //     padding: 3,
+    // },
     tempNastawy: {
         color: '#3e2a19',
         backgroundColor: '#e3791c',
-        fontSize: 22,
+        fontSize: 26,
         fontWeight: 'bold',
+        marginLeft: 10,
+        marginRight: 10,
     },
     tempNast: {
         color: '#e3791c',
-        fontSize: 22,
+        fontSize: 20,
+        marginLeft: 10,
+        // marginRight: 10,
         // fontWeight: 'bold',
     },
     item: {
         color: '#3e2a19',
+        backgroundColor: '#e3791c',
+        // color: '#3e2a19',
         fontSize: 22,
         fontWeight: 'bold',
-        marginLeft: 5,
-        marginRight: 5,
+        marginLeft: 35,
+        // marginRight: 5,
         padding: 3,
         width: 140,
     },
     nastawa: {
         flex: 1,
         flexDirection: 'row',
-        borderStyle: 'solid',
-        borderColor: 'red',
-        alignItems: 'flex-end',
+        // borderStyle: 'solid',
+        // borderColor: 'red',
+        // alignItems: 'flex-end',
     }     
 })
  
