@@ -13,4 +13,4 @@ console.log("modbus is connected ...");
 
 const wss = new WebSocketServer(homeConfig.webSocketsServer);
 wss.on('connection', onNewConnection);
-console.log("Websocket running at port 8080 \n");
+console.log("websocket running at port 8080 \n");

@@ -1,5 +1,8 @@
-import {getCurrentState, writeToModbus} from './modbusPooling'
-import {ODCZYT_REJESTRU} from '../types'
+import {writeToModbus} from './modbusPooling';
+import {ODCZYT_REJESTRU} from '../utils/types';
+import register  from '../Registers/StateRegister';
+import {addRule} from './rulesEngine';
+
 const connections = {};
 
 export function broadcast (key, value) {
@@ -8,31 +11,26 @@ export function broadcast (key, value) {
             JSON.stringify({ key, value })
         );
     }
-    // console.log(key, value);
 }
 
 export function onNewConnection (websocket) {
     const id = Math.random();
     connections[id] = websocket;
-    // console.log(getCurrentState());
-    broadcast(ODCZYT_REJESTRU, getCurrentState());
+    broadcast(ODCZYT_REJESTRU, register.getCurrentState());
 
     websocket.on('message', (data) => {
         try {
             data = JSON.parse(data);
-            // console.log(data.key, data.value);
-                // .key, data.value.address, data.value.value);
-            // writeToModbus({address: 16401, value: 20.5, temp: true})
-            writeToModbus(data.value)
+            console.log(data.key, data.value);
+            if (data.key=='zmianaSwiatla' || data.key=='zmianaTemperatury'){
+                writeToModbus(data.value)
+            }
+            if (data.key == 'ADDRULE'){
+                addRule(data.value)
+            }
         } catch (e) {
             data = {};
         }
-        
-        // if (data.key === 'STATUS') {
-        //     setTimeout(() => {
-        //         broadcast('STATUS');
-        //     }, 250);
-        // }
     });
 
     websocket.on('close', () => {

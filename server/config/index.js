@@ -7,8 +7,8 @@ export default {
     port: {port : process.env.MODBUS_PORT}
   },
   webSocketsServer: {
-    host:'192.168.0.205',
-    port: "8080"
+    host: process.env.WEBSOCKET_SERVER,
+    port: process.env.WEBSOCKET_PORT
   }
 }
 
