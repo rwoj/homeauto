@@ -24,8 +24,8 @@ class OgrzewanieList extends Component {
   }
   render (){
     const {isVisible} = this.state;
-    // console.log(this.props.dataToShow);
-    const lokaleList = this.props.dataToShow.map((l,i)=>{
+    const {dataToShow, zapisz, navigation} = this.props;
+    const lokaleList = dataToShow.map((l,i)=>{
       const isTempNast = !!l.idTempNast;
       return (<ListItem 
           key = {i}
@@ -44,7 +44,9 @@ class OgrzewanieList extends Component {
                   {height: 70*(isVisible[i]?1:0)*(isTempNast?1:0)}]}> 
                   {isVisible[i] && isTempNast &&
                       <OgrzewanieForm key={i} item = {l} 
-                                      zapisz={this.props.zapisz}/>}
+                                      zapisz={zapisz}
+                                      navigation={navigation}
+                                      />}
               </View>}
           onPress = {() => {
               let changedTbl = [...isVisible];

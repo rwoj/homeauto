@@ -17,8 +17,8 @@ export default OgrzewanieBox =({howManyGrzanie, navigation})=>(
             </TouchableOpacity>       
             <TouchableOpacity style={styles.boxPress} 
                 onPress={() => 
-                    navigation.navigate('Harmonogram')}>
-                <Text style={styles.text}> Plan </Text>
+                    navigation.navigate('EfektyOgrzewanie')}>
+                <Text style={styles.text}> Efekty </Text>
             </TouchableOpacity>    
         </View>    
     </View>

@@ -3,7 +3,8 @@ import Dom from './screens/Dom/Dom'
 import Swiatlo from './screens/Swiatlo/Swiatlo'
 import Ogrzewanie from './screens/Ogrzewanie/Ogrzewanie'
 import Efekty from './screens/Efekty/Efekty'
-import Harmonogram from './screens/Harmonogram/Harmonogram'
+import EfektyOgrzewanie from './screens/EfektyOgrzewanie/EfektyOgrzewanie'
+import PlanLokalu from './screens/PlanLokalu/PlanLokalu'
 
 
 export default App = createStackNavigator(
@@ -12,7 +13,8 @@ export default App = createStackNavigator(
         Swiatlo: {screen: Swiatlo},
         Efekty: {screen: Efekty},
         Ogrzewanie: {screen: Ogrzewanie}, 
-        Harmonogram: {screen: Harmonogram}, 
+        EfektyOgrzewanie: {screen: EfektyOgrzewanie},
+        PlanLokalu: {screen: PlanLokalu}, 
     },
     {
         initialRouteName: 'Dom',

@@ -19,7 +19,7 @@ class OgrzewanieForm extends React.Component {
 
     render(){
         const {tempNastawy} = this.state
-        const {item, zapisz} = this.props
+        const {item, zapisz, navigation} = this.props
 
         return (
         <View style={styles.itemBox}>
@@ -50,6 +50,8 @@ class OgrzewanieForm extends React.Component {
                             // borderWidth: 0,
                             borderRadius: 5
                         }}
+                        onPress = {()=>navigation.navigate('PlanLokalu', 
+                                    {lokal: item})}
                 />   
             </View>}
 

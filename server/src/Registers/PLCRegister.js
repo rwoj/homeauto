@@ -1,8 +1,8 @@
-const register = new Rejestr();
+const register = new PLCRejestr();
 export default register;
+export const getCurrentState = register.getCurrentState;
 
-// rej_first:[],
-function Rejestr () {
+function PLCRejestr () {
   this.wyjscia = {
     adres: 16901,
     howMany: 100,
@@ -57,7 +57,6 @@ function Rejestr () {
           {id: this.tempNast.adres+j, value: this.tempNast.rej_last[i]});
       j+=2;
     };
-    // console.log(currentState)
     return currentState;
   }
   this.whatChanged = (name, odczyt) => {
@@ -84,30 +83,3 @@ function Rejestr () {
       return result;
   }
 }
-
-// , adres, rej_last
-// export function whatChanged(rej_new, rej ){
-//   const result=[];
-//   rej_new.map((x, i)=>{
-//     if (rej.rej_last[i]!==x){
-//       result.push({id: rej.adres+i, value: x});
-//     }
-//   });
-//   return result
-// }
-
-// adres, rej_last, rej_last2, rej_last3
-// export function whatChangedTemp(rej_new, rej ){
-//   const result=[];
-//   let j=0;
-//   rej_new.map((x, i)=>{
-//     if (rej.rej_last[i]!==x
-//       && (!rej.rej_last2 || rej.rej_last2[i] !== x)
-//       && (!rej.rej_last3 || rej.rej_last3[i] !== x))
-//     {
-//       result.push({id: rej.adres+j, value: x})
-//     }
-//     j+=2;
-//   });
-//   return result;
-// }

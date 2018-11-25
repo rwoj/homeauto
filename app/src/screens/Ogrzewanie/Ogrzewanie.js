@@ -63,6 +63,7 @@ class Ogrzewanie extends React.Component {
             ? currentTemp[0].data
             :(poziom ==='pietro'? currentTemp[1].data : currentTemp[2].data)}
           zapisz={this.zapisz}
+          navigation={this.props.navigation}
         />
       </View>
     )

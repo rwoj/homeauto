@@ -3,13 +3,18 @@ import {Server as WebSocketServer} from 'ws';
 
 import {modbusPooling} from './controllers/modbusPooling';
 import {onNewConnection} from './controllers/clientsCommunication';
+import {verifyRules} from './controllers/rulesEngine';
+
 import homeConfig from '../config';
 
 const modbusClient = new Modbus();
 modbusClient.connectTCP(homeConfig.modbus.host, homeConfig.modbus.port);
 modbusClient.setID(1);
-setInterval(()=>modbusPooling(modbusClient), 2000);
-console.log("modbus is connected ...");
+setInterval(()=>{
+    modbusPooling(modbusClient);
+    verifyRules();
+    }, 2000);
+console.log("modbus is connected\n", " and rules engine working ...");
 
 const wss = new WebSocketServer(homeConfig.webSocketsServer);
 wss.on('connection', onNewConnection);

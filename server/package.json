@@ -14,14 +14,15 @@
   "license": "ISC",
   "dependencies": {
     "dotenv": "^6.1.0",
+    "ieee754": "^1.1.12",
     "modbus-serial": "^7.4.1",
-    "ws": "^6.1.0",
-    "ieee754": "^1.1.12"
+    "ws": "^6.1.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "babel-preset-stage-2": "^6.24.1",
-    "nodemon": "^1.18.5"
+    "nodemon": "^1.18.5",
+    "prettier": "1.15.2"
   }
 }

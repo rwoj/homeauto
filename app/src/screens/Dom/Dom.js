@@ -5,8 +5,8 @@ import {wyjsciaHashSelector, wySatelHashSelector} from '../../store/reducers/reg
 import { wsConnect, wsDisconnect } from "../../store/actions/websocket";
 
 import { StyleSheet, View } from 'react-native';
-import SwiatlaBox from '../../components/Swiatlo/SwiatlaBox';
-import OgrzewanieBox from '../../components/Ogrzewanie/OgrzewanieBox';
+import SwiatlaBox from './SwiatlaBox';
+import OgrzewanieBox from './OgrzewanieBox';
 import CzujkaForm from '../../components/Czujki/CzujkaForm';
 
 class Dom extends React.Component {

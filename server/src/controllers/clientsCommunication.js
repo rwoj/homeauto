@@ -1,6 +1,6 @@
-import {writeToModbus} from './modbusPooling';
 import {ODCZYT_REJESTRU} from '../utils/types';
-import register  from '../Registers/StateRegister';
+import {getCurrentState}  from '../Registers/PLCRegister';
+import {writeToModbus} from '../Registers/WritesRegister';
 import {addRule} from './rulesEngine';
 
 const connections = {};
@@ -16,7 +16,7 @@ export function broadcast (key, value) {
 export function onNewConnection (websocket) {
     const id = Math.random();
     connections[id] = websocket;
-    broadcast(ODCZYT_REJESTRU, register.getCurrentState());
+    broadcast(ODCZYT_REJESTRU, getCurrentState());
 
     websocket.on('message', (data) => {
         try {
