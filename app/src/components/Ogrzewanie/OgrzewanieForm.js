@@ -13,7 +13,7 @@ class OgrzewanieForm extends React.Component {
                 {tempNastawy: nextProps.item.tempNast, initTempNastawy: nextProps.item.tempNast})
         }
     }
-    onChange = e => this.setState({ [e.target.name]: e.target.value })
+    // onChange = e => this.setState({ [e.target.name]: e.target.value })
     increase = () => this.setState({tempNastawy: Number(this.state.tempNastawy)+0.5})
     decrease = () => this.setState({ tempNastawy: Number(this.state.tempNastawy)-0.5})
 
@@ -51,7 +51,9 @@ class OgrzewanieForm extends React.Component {
                             borderRadius: 5
                         }}
                         onPress = {()=>navigation.navigate('PlanLokalu', 
-                                    {lokal: item})}
+                                    {   nazwaLokalu: item.nazwaLokalu,
+                                        item: item
+                                    })}
                 />   
             </View>}
 

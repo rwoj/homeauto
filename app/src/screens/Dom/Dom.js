@@ -10,15 +10,15 @@ import OgrzewanieBox from './OgrzewanieBox';
 import CzujkaForm from '../../components/Czujki/CzujkaForm';
 
 class Dom extends React.Component {
-    static navigationOptions: {
+    static navigationOptions = {
         title: 'Sterowanie domem',
-        // headerStyle: {
-        //     backgroundColor: '#c9d5df',
-        // }, 
+        headerStyle: {
+            backgroundColor: '#c9d5df',
+        }, 
         // headerTintColor: '#fff',
-        // headerTitleStyle: {
-        //   fontWeight: 'bold',
-        // },
+        headerTitleStyle: {
+          fontWeight: 'bold',
+        },
     };
     componentDidMount () { this.props.wsConnect(); }
     componentWillUnmount () { this.props.wsDisconnect(); }

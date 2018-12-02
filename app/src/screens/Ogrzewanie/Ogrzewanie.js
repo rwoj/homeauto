@@ -11,12 +11,12 @@ import OgrzewanieList from '../../components/Ogrzewanie/OgrzewanieList';
 
   
 class Ogrzewanie extends React.Component {
-  static navigationOptions: {
+  static navigationOptions = {
     title: 'Ogrzewanie',
     headerStyle: {
         backgroundColor: '#c9d5df'
     }
-  };
+  }
   state={
     poziom: 'parter',
   }

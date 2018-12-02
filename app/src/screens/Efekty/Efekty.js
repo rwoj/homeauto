@@ -1,32 +1,35 @@
-import React from 'react';
+import React, {Component} from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, Dimensions } from 'react-native';
 
 const width = Dimensions.get('window').width; 
 const height = Dimensions.get('window').height;
 
-const Efekty = () => (
-    // navigationOptions: {
-    //     title: 'Efekty/sceny',
-    //     headerStyle: {
-    //         backgroundColor: '#c9d5df'
-    //     }
-    // }
-    <View style={styles.box}>
-        <View style={styles.boxes}>
-            <TouchableOpacity style={styles.boxPress} 
-                onPress={() => 
-                console.log("wylacz wszystkie swiatla")}>
-                <Text style={styles.text}> Wyłącz światła </Text>
-            </TouchableOpacity>    
-            <TouchableOpacity style={styles.boxPress} 
-                onPress={() => 
-                console.log("heja")}>
-                <Text style={styles.text}> Heja </Text>
-            </TouchableOpacity>    
-        </View>
-    </View>  
-
-)
+class Efekty extends Component {
+    static navigationOptions = {
+        title: 'Efekty/sceny',
+        headerStyle: {
+            backgroundColor: '#c9d5df'
+        }
+    }
+    render (){
+        return(
+            <View style={styles.box}>
+                <View style={styles.boxes}>
+                    <TouchableOpacity style={styles.boxPress} 
+                        onPress={() => 
+                        console.log("wylacz wszystkie swiatla")}>
+                        <Text style={styles.text}> Wyłącz światła </Text>
+                    </TouchableOpacity>    
+                    <TouchableOpacity style={styles.boxPress} 
+                        onPress={() => 
+                        console.log("heja")}>
+                        <Text style={styles.text}> Heja </Text>
+                    </TouchableOpacity>    
+                </View>
+            </View>  
+        )
+    }
+}
 export default Efekty
 
 const styles = StyleSheet.create({

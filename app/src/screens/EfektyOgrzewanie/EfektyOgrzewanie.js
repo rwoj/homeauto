@@ -5,7 +5,12 @@ const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
 class EfektyOgrzewanie extends Component {
-
+    static navigationOptions = {
+        title: 'Efekty Ogrzewanie',
+        headerStyle: {
+            backgroundColor: '#c9d5df'
+        }
+      }
     render(){
         // const {navigation} = this.props;
         // console.log(navigation.getParam('lokal', 'no value'))

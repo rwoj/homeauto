@@ -11,7 +11,7 @@ export default SwiatloHeader =({zmienPoziom})=>(
             <Text style={styles.item}>Parter</Text>
         </TouchableOpacity>
         <TouchableOpacity 
-            onPress={()=>zmienPoziom('pietro')} text="Piętro">
+            onPress={()=>zmienPoziom('pietro')} >
             <Text style={styles.item}>Piętro</Text>
         </TouchableOpacity>
         <TouchableOpacity  

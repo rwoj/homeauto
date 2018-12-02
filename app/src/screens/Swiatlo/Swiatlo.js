@@ -10,7 +10,7 @@ import SwiatloHeader from '../../components/Swiatlo/SwiatloHeader';
 import SwiatloList from '../../components/Swiatlo/SwiatloList';
 
 class Swiatlo extends React.Component {
-    static navigationOptions: {
+    static navigationOptions = {
         title: 'Swiatla',
         headerStyle: {
             backgroundColor: '#c9d5df'
@@ -81,5 +81,5 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#202c36',
-    }
+    },
   })

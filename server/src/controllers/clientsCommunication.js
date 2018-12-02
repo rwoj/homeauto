@@ -25,8 +25,9 @@ export function onNewConnection (websocket) {
             if (data.key=='zmianaSwiatla' || data.key=='zmianaTemperatury'){
                 writeToModbus(data.value)
             }
-            if (data.key == 'ADDRULE'){
-                addRule(data.value)
+            if (data.key == 'regula'){
+                console.log(dane.value)
+                // addRule(data.value)
             }
         } catch (e) {
             data = {};
