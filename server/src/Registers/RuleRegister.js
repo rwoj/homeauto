@@ -1,42 +1,60 @@
-import rulesFileInitial  from '../Registers/rules';
+import sqlite3 from 'sqlite3';
+
+const sqlite = sqlite3.verbose();
+const db = new sqlite.Database('./dbdata/rules.db');
 
 const rules = new RuleRejestr();
-rules.createNextTriggers();
+rules.repoInit(); 
 export default rules;
 
 function RuleRejestr () {
   this.nextTriggers = [];
-  this.rulesSet = rulesFileInitial;
+  this.rulesSet = [];
   this.currentDay = 0;
+  this.addRule = (rule)=>{
+    this.rulesSet = this.rulesSet //+rule 
+    // persist in repo
+    this.createNextTriggers();
+  };
+  this.modifyRule = (rule)=>{
+    this.rulesSet=this.rulesSet //+modified rule
+    // persist in repo
+    this.createNextTriggers();
+  };
+  this.deleteRule = (rule)=>{
+    this.rulesSet=this.rulesSet //- delete rule
+    // persist in repo
+    this.createNextTriggers();
+  };
+  this.repoInit = ()=>{
+    db.all("select * from rules", (err, res) => {
+      res.map((x) => this.rulesSet.push({
+        id: x.id, idLokalu: x.idLokalu, nazwa: x.nazwa, 
+        tempNast: x.tempNast, startHr: x.startHr, czasMin: x.czasMin, 
+        weekday: [!!x.dni0, !!x.dni1, !!x.dni2, !!x.dni3, !!x.dni4, !!x.dni5, !!x.dni6], 
+        address: x.address, value: x.value
+      }));
+      this.createNextTriggers();
+    });
+  };
   this.createNextTriggers = () => {
-    // const currentDTime = Date.now();
     const currentDT = new Date();
     const currentDTDay = currentDT.getDay();
 
     this.rulesSet.map((rule)=>{
-      if (rule.rule.weekday[currentDTDay]) {
+      if (rule.weekday[currentDTDay]) {
         this.nextTriggers.push({
           datetime: Date.now()+10*1000, active: true, 
-          ruleData: {...rule, address: 16517, value: 1} 
-        },
-        {
-          datetime: Date.now()+10*1000, active: true, 
-          ruleData: {...rule, address: 16518 , value: 1} 
+          ruleData: {...rule, value: 0} 
         },
         {
           datetime: Date.now()+20*1000, active: true, 
-          ruleData: {...rule, address: 16518, value: 0} 
+          ruleData: {...rule} 
         }
         )
       }    
     })
     this.currentDay = currentDTDay;
-    console.log(currentDTDay, this.nextTriggers);
-    // this.nextTriggers = [
-    //   {datetime: Date.now()+10*1000, active: true, id: 1},
-    //   {datetime: Date.now()+20*1000, active: true, id: 2},
-    //   {datetime: Date.now()+30*1000, active: true, id: 3},
-    // ]
   }
   this.markNonActive = (index) =>{
     this.nextTriggers[index] = false;

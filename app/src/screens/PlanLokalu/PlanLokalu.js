@@ -35,12 +35,38 @@ class PlanLokalu extends Component {
     // decrease = () => this.setState({ tempNastawy: Number(this.state.tempNastawy)-0.5})
     wyslijNowaRegula = (dane)=>{
         console.log(dane)
+        dane = {nazwa: "testreguly1", tempNast: "22.5", 
+                startHr: "14.00", czasMin: "5", 
+                dni: [true, true, false, false, false, false, true]
+            }
         this.props.wsSend({
-            key: 'regula', 
+            key: 'nowaRegula', 
             value:{dane}
         })
         this.setState({isListVisible: !this.state.isListVisible})
     }
+    zmodyfikujRegula = (dane)=>{
+        console.log(dane)
+        dane = {nazwa: "testreguly1", tempNast: "22.5", 
+                startHr: "14.00", czasMin: "5", 
+                dni: [true, true, false, false, false, false, true]
+            }
+        this.props.wsSend({
+            key: 'zmienRegula', 
+            value:{dane}
+        })
+        this.setState({isListVisible: !this.state.isListVisible})
+    }
+    usunRegula = (dane)=>{
+        console.log(dane)
+        dane = { id: 1, idLokalu: 1}
+        this.props.wsSend({
+            key: 'usunRegula', 
+            value:{dane}
+        })
+        this.setState({isListVisible: !this.state.isListVisible})
+    }
+
     nowyItem = ()=>{
         this.setState({isListVisible: !this.state.isListVisible})
     }

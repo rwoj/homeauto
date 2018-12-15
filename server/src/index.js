@@ -14,7 +14,7 @@ setInterval(()=>{
     modbusPooling(modbusClient);
     verifyRules();
     }, 2000);
-console.log("modbus is connected\n", " and rules engine working ...");
+console.log("modbus is connected and rules engine is working ...");
 
 const wss = new WebSocketServer(homeConfig.webSocketsServer);
 wss.on('connection', onNewConnection);

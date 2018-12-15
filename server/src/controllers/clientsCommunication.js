@@ -1,7 +1,7 @@
-import {ODCZYT_REJESTRU} from '../utils/types';
+import {ODCZYT_REJESTRU, ODCZYT_REGUL} from '../utils/types';
 import {getCurrentState}  from '../Registers/PLCRegister';
 import {writeToModbus} from '../Registers/WritesRegister';
-import {addRule} from './rulesEngine';
+import {getAllRules, addRule, modifyRule, deleteRule} from './rulesEngine';
 
 const connections = {};
 
@@ -17,20 +17,38 @@ export function onNewConnection (websocket) {
     const id = Math.random();
     connections[id] = websocket;
     broadcast(ODCZYT_REJESTRU, getCurrentState());
+    broadcast(ODCZYT_REGUL, getAllRules());
 
     websocket.on('message', (data) => {
         try {
             data = JSON.parse(data);
-            console.log(data.key, data.value);
-            if (data.key=='zmianaSwiatla' || data.key=='zmianaTemperatury'){
-                writeToModbus(data.value)
-            }
-            if (data.key == 'regula'){
-                console.log(dane.value)
-                // addRule(data.value)
-            }
-        } catch (e) {
-            data = {};
+            // console.log(data.key, data.value);
+            switch (data.key){
+                case 'zmianaSwiatla':
+                case 'zmianaTemperatury':
+                    writeToModbus(data.value);
+                    break;
+                case 'nowaRegula':
+                    addRule(data.value);
+                    break;
+                case 'zmienRegula':
+                    modifyRule(data.value);
+                    break;
+                case 'usunRegula':
+                    deleteRule(data.value);
+                    break;
+                default:
+                    console.log("dziwna wiadomość :", data.key);
+            } 
+            // if (data.key=='zmianaSwiatla' || data.key=='zmianaTemperatury'){
+            //     writeToModbus(data.value)
+            // }
+            // if (data.key == 'nowaRegula'){
+            //     console.log(data.key, data.value)
+            //     addRule(data.value)
+            // }
+        } catch (err) {
+            console.error(err);
         }
     });
 

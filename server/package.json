@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon --exec babel-node --presets env,stage-2 src/index.js",
+    "dbinit": "node ./dbdata/dbInit.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dbstart": "e:/db/redis-server",
     "jtest": "nodemon --exec babel-node --presets env,stage-2 src/controllers/hex.js"
@@ -16,6 +17,7 @@
     "dotenv": "^6.1.0",
     "ieee754": "^1.1.12",
     "modbus-serial": "^7.4.1",
+    "sqlite3": "^4.0.4",
     "ws": "^6.1.0"
   },
   "devDependencies": {

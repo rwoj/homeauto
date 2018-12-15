@@ -8,7 +8,7 @@ export const ODCZYT_USTAWIEN = 'ODCZYT_USTAWIEN'
 export const ZMIANA_USTAWIEN = 'ZMIANA_USTAWIEN'
 
 export const ODCZYT_REGUL = 'ODCZYT_REGUL'
-export const ZMIANA_REGUL = 'ZMIANA_REGUL'
+// export const ZMIANA_REGUL = 'ZMIANA_REGUL'
 
 
 //----

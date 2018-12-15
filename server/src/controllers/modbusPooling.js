@@ -9,7 +9,7 @@ export async function modbusPooling (client) {
     if (writes.anyWrites()){
         const writePromises = buildWritePromisses(writes.takeCycleWrites(), client);
         const writeRes = await Promise.all(writePromises);
-        console.log(writeRes);
+        console.log("writes :", writeRes);
     }
     const odczytyWy = await client.readHoldingRegisters(
         register.getRej('wyjscia').adres, register.getRej('wyjscia').howMany)
