@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
+import {regulyHashSelector} from '../../store/reducers/reguly'
 import { wsSend } from "../../store/actions/websocket";
 
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
@@ -72,20 +73,16 @@ class PlanLokalu extends Component {
     }
 
     render(){
-        const {isListVisible, item} = this.state;
-        // const { navigation } = this.props;
-        // const nazwaLokalu = navigation.getParam('nazwaLokalu', 'no value');
-        // const item = navigation.getParam('item', 'no item'); 
-        console.log( item )
+        const { isListVisible, item } = this.state;
+        const { rules } = this.props;
+        const localReguly = rules ? rules.filter(x=>x.idLokalu===item.idLokalu):[];
 
         return (
             <View style={styles.container}>
                 {isListVisible && 
                     <View style={styles.list}>
                         <PlanLokaluList 
-                            // poziom={this.state.poziom}
-                            // dataToShow={dataToShow}
-                            // zapisz={this.zapisz}
+                            rules={localReguly}
                         />
                         <TouchableOpacity style={styles.addNew}
                             onPress={this.nowyItem}> 
@@ -102,12 +99,14 @@ class PlanLokalu extends Component {
             </View> 
     )}
 }
-const mapDispatchToProps = dispatch => {
-    return {
-        wsSend: (dane) => dispatch(wsSend(dane))
-    }
-  }
-export default connect(null, mapDispatchToProps)(PlanLokalu)
+const mapStateToProps = state => ({
+    rules: regulyHashSelector(state)
+})
+const mapDispatchToProps = dispatch => ({
+        wsSend: (dane) => dispatch(wsSend(dane))    
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(PlanLokalu)
 
 const styles = StyleSheet.create({
     container: {

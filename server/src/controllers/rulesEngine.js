@@ -24,9 +24,8 @@ export function verifyRules(){
     const toAction = rules.takeActiveRules();
     toAction.map((activeRule)=>{
         console.log("active rule", activeRule)
-        // writeToModbus({address: , value: , temp: });
         writeToModbus({address: activeRule.ruleData.address, 
-            value: activeRule.ruleData.value, temp: false});
+            value: activeRule.ruleData.value, temp: activeRule.ruleData.temp});
     })
 }
 

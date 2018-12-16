@@ -2,7 +2,7 @@ import { WEBSOCKET_MESSAGE } from '@giantmachines/redux-websocket'
 import { ODCZYT_REGUL } from "../actions/types";
 import { createSelector } from 'reselect'
 
-export default function reguly(state={}, action={}) {
+export default function reguly(state=[], action={}) {
   let type, dane;
   if (action.type === WEBSOCKET_MESSAGE){
     let payload = JSON.parse(action.payload.data);
@@ -11,14 +11,14 @@ export default function reguly(state={}, action={}) {
   } 
   switch (type) {
     case ODCZYT_REGUL:
-      console.log(type, dane);
-      return {...state, ...dane};
+      // console.log(type, dane)
+      return [...dane];
     default:
       return state;
   }
 }
 
-const regulyHashSelector = state => !state.reguly ? [] : state.reguly
+export const regulyHashSelector = state => !state.reguly ? [] : state.reguly
 export const regulySelector = createSelector(regulyHashSelector, hash =>
   hash
 )
