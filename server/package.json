@@ -7,7 +7,7 @@
     "start": "nodemon --exec babel-node --presets env,stage-2 src/index.js",
     "dbinit": "node ./dbdata/dbInit.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dbstart": "e:/db/redis-server",
+    "dbstart": "to nie jest potrzebne: e:/db/redis/redis-server",
     "jtest": "nodemon --exec babel-node --presets env,stage-2 src/controllers/hex.js"
   },
   "keywords": [],
