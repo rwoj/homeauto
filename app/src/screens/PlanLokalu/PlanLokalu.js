@@ -21,19 +21,12 @@ class PlanLokalu extends Component {
         isListVisible: true,
         item: {},
         tempNastawy: 0,
+        isRuleEdited: false,
+        editedRule: {},
     }
     componentDidMount(){
         this.setState({item: this.props.navigation.getParam('item', 'no item')})
     }
-    // componentWillReceiveProps(nextProps){
-    //     if (nextProps.item.tempNast!==this.state.initTempNastawy){
-    //         this.setState(
-    //             {tempNastawy: nextProps.item.tempNast, initTempNastawy: nextProps.item.tempNast})
-    //     }
-    // }
-    // onChange = e => this.setState({ [e.target.name]: e.target.value })
-    // increase = () => this.setState({tempNastawy: Number(this.state.tempNastawy)+0.5})
-    // decrease = () => this.setState({ tempNastawy: Number(this.state.tempNastawy)-0.5})
     wyslijNowaRegula = (dane)=>{
         console.log(dane)
         dane = {nazwa: "testreguly1", tempNast: "22.5", 
@@ -46,30 +39,42 @@ class PlanLokalu extends Component {
         })
         this.setState({isListVisible: !this.state.isListVisible})
     }
-    zmodyfikujRegula = (dane)=>{
+    modifyRule = (dane)=>{
         console.log(dane)
-        dane = {nazwa: "testreguly1", tempNast: "22.5", 
-                startHr: "14.00", czasMin: "5", 
-                dni: [true, true, false, false, false, false, true]
-            }
-        this.props.wsSend({
-            key: 'zmienRegula', 
-            value:{dane}
-        })
-        this.setState({isListVisible: !this.state.isListVisible})
+        // dane = {nazwa: "testreguly1", tempNast: "22.5", 
+        //         startHr: "14.00", czasMin: "5", 
+        //         dni: [true, true, false, false, false, false, true]
+        //     }
+        // this.props.wsSend({
+        //     key: 'zmienRegula', 
+        //     value:{dane}
+        // })
+        // this.setState({isListVisible: !this.state.isListVisible})
     }
-    usunRegula = (dane)=>{
-        console.log(dane)
-        dane = { id: 1, idLokalu: 1}
-        this.props.wsSend({
-            key: 'usunRegula', 
-            value:{dane}
-        })
-        this.setState({isListVisible: !this.state.isListVisible})
+    removeRule = (dane)=>{
+        console.log("removeRule: ", dane)
+        // dane = { id: 1, idLokalu: 1}
+        // this.props.wsSend({
+        //     key: 'usunRegula', 
+        //     value:{dane}
+        // })
+        // this.setState({isListVisible: !this.state.isListVisible})
     }
 
     nowyItem = ()=>{
         this.setState({isListVisible: !this.state.isListVisible})
+    }
+
+    // removeRule = () => {
+    //     console.log("edytuje");
+    //     this.setState({isRuleEdited: true})
+    // }
+    showNewButton = ()=>{
+        return !this.state.isRuleEdited &&
+        (<TouchableOpacity style={styles.addNew}
+            onPress={this.nowyItem}> 
+            <Text style={styles.addNewText}>+</Text>
+        </TouchableOpacity>)
     }
 
     render(){
@@ -83,11 +88,10 @@ class PlanLokalu extends Component {
                     <View style={styles.list}>
                         <PlanLokaluList 
                             rules={localReguly}
+                            removeRule={this.removeRule}
+                            modifyRule={this.modifyRule}
                         />
-                        <TouchableOpacity style={styles.addNew}
-                            onPress={this.nowyItem}> 
-                            <Text style={styles.addNewText}>+</Text>
-                        </TouchableOpacity>
+                        {this.showNewButton()}
                     </View>
                 }
                 {!isListVisible && 
@@ -119,7 +123,7 @@ const styles = StyleSheet.create({
     addNew: {
         width: 50,
         borderRadius: 40,
-        backgroundColor: 'blue',
+        backgroundColor: '#3b84c4',
         position: 'absolute',
         bottom: 10,
         right: 10,

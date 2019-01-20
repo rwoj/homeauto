@@ -49,6 +49,7 @@ class TempChange extends Component {
                 onChangeText= {(text)=>this.onChange('temp', text)}
                 errorStyle={error && { color: 'red' }}
                 errorMessage={errorMessage}
+                containerStyle={styles.input}
             />
         )
     }
@@ -61,6 +62,10 @@ const styles = StyleSheet.create({
         fontSize: 18,
         color: 'white',
         backgroundColor: '#e3791c',
-        width: 30,
+        // width: 30,
+    },
+    input: {
+        width: 50,
+        margin: 5,
     },
 })

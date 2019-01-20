@@ -1,26 +1,20 @@
 import React, {Component} from 'react';
-import { StyleSheet, Text, View} from 'react-native'
-import { Button } from 'react-native-elements';
+import { StyleSheet, Text, View, TouchableOpacity} from 'react-native'
+import { Button, Icon } from 'react-native-elements';
 
-import PlanLokaluListItem from "../../components/PlanLokalu/PlanLokaluListItem";
-import TempChange from "./TempChange"
+import PlanLokaluListItem from "./PlanLokaluListItem";
+import PlanLokaluListItemTempBaz from "./PlanLokaluListItemTempBaz";
 
 class PlanLokaluList extends Component {
-
-    showTempBazowa = (temp, key) =>{
-        return (
-        <View key={key} style={styles.ruleItem}>
-            <Text style={styles.textItem}>Temperatura bazowa: </Text>
-            <TempChange />
-        </View>)
-    }
-
     render(){
-        const { rules } = this.props
+        const { rules, removeRule, modifyRule } = this.props
         console.log( rules );
         const listaRegul = rules.map((x, i) => 
-        x.id!==0 ? <PlanLokaluListItem key={x.id+i} rule={x} />
-                 : this.showTempBazowa(x.value, x.id+i))
+            x.id!==0 
+            ? <PlanLokaluListItem key={x.id+i} rule={x} 
+                modifyRule={modifyRule} removeRule={removeRule} />
+            : <PlanLokaluListItemTempBaz key={x.id+i} rule={x} 
+                modifyRule={modifyRule} />);
 
         return (
             <View style={styles.itemBox}>
@@ -39,15 +33,15 @@ const styles = StyleSheet.create({
     ruleItem: {
         // flex: 1, 
         flexDirection: 'row',
-        // alignItems: 'flex-end',
+        alignItems: 'center',
         justifyContent: 'flex-start',
-        height: 150,
+        height: 100,
     },
     textItem: {
         fontWeight: 'bold',
-        fontSize: 22,
-        color: '#3e2a19',
-        backgroundColor: '#e3791c',
+        fontSize: 20,
+        color: '#e3791c',
+        // backgroundColor: '#e3791c',
         height: 40,
         marginTop: 2,
         marginLeft: 2,
