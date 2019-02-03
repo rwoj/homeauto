@@ -61,7 +61,7 @@ class PlanLokaluListItem extends Component {
             ...rule, 
             startT: this.state.startT.value,
             endT: this.state.endT.value,
-            temp: this.state.temp.value,
+            value: this.state.temp.value,
             weekday: [...this.state.weekday],
         }
         this.props.modifyRule(updatedRule)

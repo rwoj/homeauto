@@ -22,12 +22,13 @@ class PlanLokaluItemEdit extends Component {
                     data={temp}
                     onChange={onChange}
                 />
-                <TouchableOpacity onPress={()=>sendUpdate(rule)} >
-                    <Icon size={42} type='material-community' name='checkbox-marked' color='#3bb8c4' /> 
-                </TouchableOpacity>
                 <TouchableOpacity onPress={cancelEdit}>
                     <Icon size={42} type='material-community' name='close-box' color='#a7251a' /> 
                 </TouchableOpacity>
+                <TouchableOpacity onPress={()=>sendUpdate(rule)} >
+                    <Icon size={42} type='material-community' name='checkbox-marked' color='#3bb8c4' /> 
+                </TouchableOpacity>
+
             </View>
     )}
 }           

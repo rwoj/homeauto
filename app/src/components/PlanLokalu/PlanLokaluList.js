@@ -8,12 +8,12 @@ import PlanLokaluListItemTempBaz from "./PlanLokaluListItemTempBaz";
 class PlanLokaluList extends Component {
     render(){
         const { rules, removeRule, modifyRule } = this.props
-        console.log( rules );
+        console.log("local rules: ", rules );
         const listaRegul = rules.map((x, i) => 
             x.id!==0 
-            ? <PlanLokaluListItem key={x.id+i} rule={x} 
+            ? <PlanLokaluListItem key={x.id} rule={x} 
                 modifyRule={modifyRule} removeRule={removeRule} />
-            : <PlanLokaluListItemTempBaz key={x.id+i} rule={x} 
+            : <PlanLokaluListItemTempBaz key={x.id} rule={x} 
                 modifyRule={modifyRule} />);
 
         return (

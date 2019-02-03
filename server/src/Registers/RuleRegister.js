@@ -13,17 +13,18 @@ function RuleRejestr () {
   this.lokaleTempBazowa = {};
   this.currentDay = 0;
   this.addRule = (rule)=>{
-    this.rulesSet = this.rulesSet //+rule 
+    this.rulesSet.push(rule)  
     // persist in repo
     this.createNextTriggers();
   };
   this.modifyRule = (rule)=>{
-    this.rulesSet=this.rulesSet //+modified rule
+    this.rulesSet = this.rulesSet.map(x=> x.idLokalu===rule.idLokalu && x.id === rule.id ? rule : x  )
     // persist in repo
     this.createNextTriggers();
   };
   this.deleteRule = (rule)=>{
-    this.rulesSet=this.rulesSet //- delete rule
+    this.rulesSet = this.rulesSet.filter(x => x.idLokalu !== rule.idLokalu || x.id !== rule.id);
+    console.log("rule", this.rulesSet, rule)
     // persist in repo
     this.createNextTriggers();
   };

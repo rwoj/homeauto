@@ -30,12 +30,15 @@ export function onNewConnection (websocket) {
                     break;
                 case 'nowaRegula':
                     addRule(data.value);
+                    broadcast(ODCZYT_REGUL, getAllRules());
                     break;
                 case 'zmienRegula':
                     modifyRule(data.value);
+                    broadcast(ODCZYT_REGUL, getAllRules());
                     break;
                 case 'usunRegula':
                     deleteRule(data.value);
+                    broadcast(ODCZYT_REGUL, getAllRules());
                     break;
                 default:
                     console.log("dziwna wiadomość :", data.key);

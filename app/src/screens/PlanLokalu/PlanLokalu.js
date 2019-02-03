@@ -6,7 +6,7 @@ import { wsSend } from "../../store/actions/websocket";
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 
 import PlanLokaluList from "../../components/PlanLokalu/PlanLokaluList";
-import PlanLokaluForm from "../../components/PlanLokalu/PlanLokaluForm";
+import PlanLokaluItemNew from "../../components/PlanLokalu/PlanLokaluItemNew";
 
 class PlanLokalu extends Component {
     static navigationOptions = ({navigation})=>{
@@ -27,52 +27,40 @@ class PlanLokalu extends Component {
     componentDidMount(){
         this.setState({item: this.props.navigation.getParam('item', 'no item')})
     }
-    wyslijNowaRegula = (dane)=>{
-        console.log(dane)
-        dane = {nazwa: "testreguly1", tempNast: "22.5", 
-                startHr: "14.00", czasMin: "5", 
-                dni: [true, true, false, false, false, false, true]
-            }
-        this.props.wsSend({
-            key: 'nowaRegula', 
-            value:{dane}
-        })
-        this.setState({isListVisible: !this.state.isListVisible})
-    }
+
     modifyRule = (dane)=>{
-        console.log(dane)
-        // dane = {nazwa: "testreguly1", tempNast: "22.5", 
-        //         startHr: "14.00", czasMin: "5", 
-        //         dni: [true, true, false, false, false, false, true]
-        //     }
-        // this.props.wsSend({
-        //     key: 'zmienRegula', 
-        //     value:{dane}
-        // })
-        // this.setState({isListVisible: !this.state.isListVisible})
+        console.log("modify", dane)
+        this.props.wsSend({
+            key: 'zmienRegula', 
+            value: dane
+        })
     }
     removeRule = (dane)=>{
         console.log("removeRule: ", dane)
-        // dane = { id: 1, idLokalu: 1}
-        // this.props.wsSend({
-        //     key: 'usunRegula', 
-        //     value:{dane}
-        // })
-        // this.setState({isListVisible: !this.state.isListVisible})
+        this.props.wsSend({
+            key: 'usunRegula', 
+            value: dane
+        })
+    }
+    sendNew = (dane)=>{
+        console.log("nowa regula", dane)
+        this.props.wsSend({
+            key: 'nowaRegula', 
+            value: dane
+        })
+        this.setState({isListVisible: true})
+    }
+    cancelNew = ()=>{
+        this.setState({isListVisible: true})      
     }
 
-    nowyItem = ()=>{
+    newItemButton = ()=>{
         this.setState({isListVisible: !this.state.isListVisible})
-    }
-
-    // removeRule = () => {
-    //     console.log("edytuje");
-    //     this.setState({isRuleEdited: true})
-    // }
+    }    
     showNewButton = ()=>{
         return !this.state.isRuleEdited &&
         (<TouchableOpacity style={styles.addNew}
-            onPress={this.nowyItem}> 
+            onPress={this.newItemButton}> 
             <Text style={styles.addNewText}>+</Text>
         </TouchableOpacity>)
     }
@@ -95,9 +83,10 @@ class PlanLokalu extends Component {
                     </View>
                 }
                 {!isListVisible && 
-                    <PlanLokaluForm
-                        nowyItem = {this.nowyItem}
-                        wyslijNowaRegula = {this.wyslijNowaRegula}
+                    <PlanLokaluItemNew
+                        rules={localReguly}
+                        cancelNew={this.cancelNew}
+                        sendNew = {this.sendNew}
                     />
                 }
             </View> 

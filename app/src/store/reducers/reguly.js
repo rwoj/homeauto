@@ -12,6 +12,7 @@ export default function reguly(state=[], action={}) {
   switch (type) {
     case ODCZYT_REGUL:
       // console.log(type, dane)
+      // should change to introduce immutability
       return [...dane];
     default:
       return state;

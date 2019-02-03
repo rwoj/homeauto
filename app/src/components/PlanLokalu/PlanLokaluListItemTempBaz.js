@@ -19,15 +19,24 @@ class PlanLokaluListItemTempBaz extends Component {
         // error: false,
         // errorMessage: '',
     }
-    onChange = (name, text) => this.setState({[name]: {value: text}})
+    onChange = (name, value) => this.setState({[name]: {...this.state[name], value: value}})
     setEditing = (name)=>{
         // this.props.toggleEdit()
-        this.setState({[name]: {editing: true}});
+        this.setState({[name]: {...this.state[name], editing: true}});
     }
     cancelEdit = ()=>{
         this.setState({
-            temp: {editing: false}
+            temp: {...this.state.temp, editing: false}
         });
+    }
+    sendUpdate = (rule)=>{
+        // console.log(this.state, rule);
+        const updatedRule={
+            ...rule, 
+            value: this.state.temp.value,
+        }
+        this.props.modifyRule(updatedRule)
+        this.setState({ temp: {...this.state.temp, editing: false}});
     }
 
     render (){
@@ -47,7 +56,7 @@ class PlanLokaluListItemTempBaz extends Component {
                         data={temp}
                         onChange={this.onChange}
                     />
-                    <TouchableOpacity >
+                    <TouchableOpacity onPress={()=>this.sendUpdate(rule)}>
                         <Icon size={42} type='material-community' name='checkbox-marked' color='#3bb8c4' /> 
                     </TouchableOpacity>
                     <TouchableOpacity onPress={this.cancelEdit}>
