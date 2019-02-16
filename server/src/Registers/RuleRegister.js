@@ -1,7 +1,7 @@
 import sqlite3 from 'sqlite3';
 
 const sqlite = sqlite3.verbose();
-const db = new sqlite.Database('./dbdata/rules.db');
+const db = new sqlite.Database('./src/dbdata/rules.db');
 
 const rules = new RuleRejestr();
 rules.repoInit(); 

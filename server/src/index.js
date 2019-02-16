@@ -1,3 +1,4 @@
+import "@babel/polyfill";
 import Modbus from "modbus-serial";
 import {Server as WebSocketServer} from 'ws';
 
@@ -5,7 +6,7 @@ import {modbusPooling} from './controllers/modbusPooling';
 import {onNewConnection} from './controllers/clientsCommunication';
 import {verifyRules} from './controllers/rulesEngine';
 
-import homeConfig from '../config';
+import homeConfig from './config';
 
 const modbusClient = new Modbus();
 modbusClient.connectTCP(homeConfig.modbus.host, homeConfig.modbus.port);
