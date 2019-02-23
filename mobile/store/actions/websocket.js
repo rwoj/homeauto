@@ -4,7 +4,7 @@ export const wsConnect = () => (
     {
         type: WEBSOCKET_CONNECT, 
         payload: {
-            url: 'ws://192.168.0.209:8080'
+            url: 'ws://192.168.0.150:8080'
         }
     })
 

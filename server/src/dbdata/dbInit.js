@@ -1,5 +1,5 @@
 var sqlite3 = require('sqlite3').verbose();
-var db = new sqlite3.Database('./dbdata/rules.db');
+var db = new sqlite3.Database('./src/dbdata/rules.db');
 // const db = new sqlite.Database(':memory');
 
 var rulesFileInitial = require('./rules');
