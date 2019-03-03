@@ -1,6 +1,7 @@
 node_modules
 rules.db
 .env
+lib
 dist
 old
 
