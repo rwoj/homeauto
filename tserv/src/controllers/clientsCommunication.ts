@@ -1,7 +1,8 @@
 import {ODCZYT_REJESTRU, ODCZYT_REGUL} from '../utils/types';
 import {getCurrentState}  from '../registers/PLCRegisters';
-import {writeToModbus} from '../registers/WritesRegister';
+import {writeToModbus, ItemToWrite} from '../registers/WritesRegister';
 import {getAllRules, addRule, modifyRule, deleteRule} from './rulesEngine';
+import {RuleT} from '../registers/RuleRegister';
 
 const connections: any [] = [];
 
@@ -21,7 +22,7 @@ export function onNewConnection (websocket: any) {
 
     websocket.on('message', (_data: string) => {
         try {
-            const data: {key: string, value: any} = JSON.parse(_data);
+            const data: {key: string, value: ItemToWrite | RuleT | any} = JSON.parse(_data);
             // console.log(data.key, data.value);
             switch (data.key){
                 case 'zmianaSwiatla':

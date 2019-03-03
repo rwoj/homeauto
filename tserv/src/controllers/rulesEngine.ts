@@ -1,18 +1,18 @@
-import {rules, ruleT} from '../Registers/RuleRegister';
-import {writeToModbus} from '../Registers/WritesRegister';
+import {rules, RuleT} from '../registers/RuleRegister';
+import {writeToModbus} from '../registers/WritesRegister';
 
-export function getAllRules(): ruleT[]{
+export function getAllRules(): RuleT[]{
     return rules.rulesSet;
 };
-export function addRule(data: ruleT){
+export function addRule(data: RuleT){
     // console.log("add rule :", data);
     rules.addRule(data); 
 };
-export function modifyRule(data: ruleT){
+export function modifyRule(data: RuleT){
     // console.log("zmien regula :",data)
     rules.modifyRule(data); 
 };
-export function deleteRule(data: ruleT){
+export function deleteRule(data: RuleT){
     // console.log("usuń regula:",data)
     rules.deleteRule(data);
 };

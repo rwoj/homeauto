@@ -1,13 +1,13 @@
 module.exports = [
     { 
         id: 1, idLokalu: 10, nazwa: 'dzien', 
-        startT: '14:14', endT: '14:20', 
+        startT: '15:23', endT: '15:24', 
         weekday: [1, 1, 1, 1, 1, 1, 1], 
         address: 16401, value: 22.5, temp: 1
     }, 
     { 
         id: 2, idLokalu: 10, nazwa: 'dzien', 
-        startT: '14:30', endT: '14:50', 
+        startT: '15:23', endT: '15:25', 
         weekday: [0, 0, 0, 1, 1, 1, 1],
         address: 16518, value: 0, temp: 0
     },

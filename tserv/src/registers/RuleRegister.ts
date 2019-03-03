@@ -3,13 +3,13 @@ import sqlite3 from 'sqlite3';
 const sqlite = sqlite3.verbose();
 const db = new sqlite.Database('./src/dbdata/rules.db');
 
-export interface ruleT { id: number, idLokalu: number, nazwa: string, startT: string, endT: string, 
+export interface RuleT { id: number, idLokalu: number, nazwa: string, startT: string, endT: string, 
                   weekday: boolean[], address: number, value: number | string, temp: boolean };
-interface triggersT {datetime: any, active: boolean, ruleData: ruleT}; 
+interface triggersT {datetime: any, active: boolean, ruleData: RuleT}; 
 
 class RuleRejestr {
   nextTriggers: triggersT[];
-  rulesSet: ruleT[];
+  rulesSet: RuleT[];
   lokaleTempBazowa: {[key: string] : number | string};
   currentDay: number;
 
@@ -41,17 +41,17 @@ class RuleRejestr {
       this.createNextTriggers();
     });
   };
-  addRule = (_rule: ruleT)=>{
+  addRule = (_rule: RuleT)=>{
     this.rulesSet.push(_rule)  
     // persist in repo
     this.createNextTriggers();
   };
-  modifyRule = (_rule: ruleT)=>{
+  modifyRule = (_rule: RuleT)=>{
     this.rulesSet = this.rulesSet.map( x => x.idLokalu === _rule.idLokalu && x.id === _rule.id ? _rule : x  )
     // persist in repo
     this.createNextTriggers();
   };
-  deleteRule = (_rule: ruleT)=>{
+  deleteRule = (_rule: RuleT)=>{
     this.rulesSet = this.rulesSet.filter(x => x.idLokalu !== _rule.idLokalu || x.id !== _rule.id);
     console.log("rule", this.rulesSet, _rule)
     // persist in repo
@@ -62,7 +62,7 @@ class RuleRejestr {
     const targetDT = Date.UTC(currentDT.getFullYear(), currentDT.getMonth(), currentDT.getDate());
     const currentDTDay = currentDT.getDay();
     
-    this.rulesSet.map((_rule: ruleT)=>{
+    this.rulesSet.map((_rule: RuleT)=>{
       const startT = _rule.startT.split(':');
       const endT = _rule.endT.split(':');
       const targetDT1 = targetDT+(parseInt(startT[0], 10)-1)*60*60*1000+parseInt(startT[1],10)*60*1000;
