@@ -1,22 +1,35 @@
+
+import {broadcast} from './clientsCommunication';
 import {rules, RuleT} from '../registers/RuleRegister';
 import {writeToModbus} from '../registers/WritesRegister';
+import {ODCZYT_REGUL} from '../utils/types';
 
 export function getAllRules(): RuleT[]{
     return rules.rulesSet;
 };
-export function addRule(data: RuleT){
-    // console.log("add rule :", data);
-    rules.addRule(data); 
-};
-export function modifyRule(data: RuleT){
-    // console.log("zmien regula :",data)
-    rules.modifyRule(data); 
-};
-export function deleteRule(data: RuleT){
-    // console.log("usuń regula:",data)
-    rules.deleteRule(data);
-};
-export function verifyRules(){
+
+export function handleRules(msgKey: string, data: RuleT){
+    switch (msgKey) {
+        case 'nowaRegula':
+            handleRules(msgKey, data);
+            rules.addRule(data); 
+            broadcast(ODCZYT_REGUL, getAllRules());
+            break;
+        case 'zmienRegula':
+            rules.modifyRule(data); 
+            broadcast(ODCZYT_REGUL, getAllRules());
+            break;
+        case 'usunRegula':
+            rules.deleteRule(data);
+            broadcast(ODCZYT_REGUL, getAllRules());
+            break;
+        default:
+            console.log("dziwna wiadomość :", msgKey);
+    }
+
+}
+
+const verifyRules = ():void => {
     const currentDT = new Date();
     if (currentDT.getDay() !== rules.currentDay){
         rules.createNextTriggers();
@@ -29,3 +42,7 @@ export function verifyRules(){
     })
 }
 
+export function runRulesEngine (){
+    verifyRules();    
+    setTimeout (runRulesEngine, 2000);
+} 

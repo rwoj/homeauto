@@ -1,7 +1,9 @@
 import Modbus from "modbus-serial";
 import {homeConfig} from '../config';
-
-const modbusClient = new Modbus(); // create an empty modbus client
+import {registerWyjscia, registerSatel, registerTempNast, registerTemp}  from '../registers/PLCRegisters';
+import {writes, ItemToWrite} from '../registers/WritesRegister';
+import {handleOdczytWyjscia, handleOdczytSatel, handleOdczytTemp, handleOdczytTempNast} from './handleReads';
+import { buildTempBuff, tempParser } from '../utils/tempHandler';
 
 enum MBS_STATE {
     NEXT, 
@@ -10,23 +12,7 @@ enum MBS_STATE {
     FAIL_READ_WRITE
 };
 let mbsState = MBS_STATE.NEXT;
-
-const connectClient = () => {
-    if(modbusClient.isOpen){
-        modbusClient.close(); // close port in order not to create multiple connections
-    }        
-    modbusClient.setID(1);
-    console.log(homeConfig.modbus.host )
-    modbusClient.connectTCP(homeConfig.modbus.host, homeConfig.modbus.port)
-        .then(()=> {
-            mbsState  = MBS_STATE.CONNECTED;
-            console.log("Modbus connected");
-        })
-        .catch((e: Error)=> {
-            mbsState  = MBS_STATE.FAIL_CONNECT;
-            console.log("heja",e.message);
-        });
-};
+const modbusClient = new Modbus(); // create an empty modbus client
 
 export const runModbus = ()=> {
     switch (mbsState) {
@@ -39,7 +25,6 @@ export const runModbus = ()=> {
             break;
         case MBS_STATE.CONNECTED:
             modbusReadWrite();
-            verifyRules();
             break;
         default:
             break;
@@ -47,13 +32,23 @@ export const runModbus = ()=> {
     setTimeout (runModbus, 2000);
 };
 
-import {registerWyjscia, registerSatel, registerTempNast, registerTemp}  from '../registers/PLCRegisters';
-import {writes, ItemToWrite} from '../registers/WritesRegister';
-import { buildTempBuff } from '../utils/tempHandler';
-import {handleOdczytWyjscia, handleOdczytSatel, handleOdczytTemp, handleOdczytTempNast} from './handleReadWrite';
-import { verifyRules } from "./rulesEngine";
+const connectClient = () => {
+    if(modbusClient.isOpen){
+        modbusClient.close(); // close port in order not to create multiple connections
+    }        
+    modbusClient.setID(1);
+    modbusClient.connectTCP(homeConfig.modbus.host, homeConfig.modbus.port)
+        .then(()=> {
+            mbsState  = MBS_STATE.CONNECTED;
+            console.log("Modbus connected");
+        })
+        .catch((e: Error)=> {
+            mbsState  = MBS_STATE.FAIL_CONNECT;
+            console.log(e.message);
+        });
+};
 
-async function modbusReadWrite () {
+const modbusReadWrite =  async () => {
     if (writes.anyWrites()){
         const writePromises = buildWritePromisses(writes.takeCycleWrites());
         try {
@@ -80,11 +75,11 @@ async function modbusReadWrite () {
     }
         handleOdczytWyjscia(odczytyWy);    
         handleOdczytSatel(odczytySatel);
-        handleOdczytTemp(odczytyTempWy)
-        handleOdczytTempNast(odczytyTempNast);
+        handleOdczytTemp(tempParser(odczytyTempWy.buffer))
+        handleOdczytTempNast(tempParser(odczytyTempNast.buffer));
 }
 
-function buildWritePromisses(writeRequests: ItemToWrite[]): any{
+const buildWritePromisses = (writeRequests: ItemToWrite[]): any => {
     const writePromises: Promise<number>[]=[];
     writeRequests.map((x)=>{
         if (x.temp) {
